@@ -35,9 +35,6 @@ public class AppDbContext : DbContext
             .HasDatabaseName("genre_id_idx");
 
         modelBuilder.Entity<Genre>()
-            .ToTable("genres");
-
-        modelBuilder.Entity<Genre>()
             .Property(g => g.GenreId)
             .HasColumnName("genre_id");
 
@@ -58,6 +55,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Actor>()
             .HasIndex(a => a.ActorId)
             .HasDatabaseName("actor_id_idx");
+
+        modelBuilder.Entity<Actor>()
+            .Property(a => a.ActorId)
+            .HasColumnName("actor_id");
 
         // Name
         modelBuilder.Entity<Actor>()
@@ -91,6 +92,10 @@ public class AppDbContext : DbContext
             .HasIndex(m => m.MovieId)
             .HasDatabaseName("movie_id_idx");
 
+        modelBuilder.Entity<Movie>()
+            .Property(m => m.MovieId)
+            .HasColumnName("movie_id");
+
         // Title
         modelBuilder.Entity<Movie>()
             .Property(m => m.Title)
@@ -122,6 +127,9 @@ public class AppDbContext : DbContext
             .HasIndex(c => c.CommentaryId)
             .HasDatabaseName("commentary_id_idx");
 
+        modelBuilder.Entity<Commentary>()
+            .Property(c => c.CommentaryId)
+            .HasColumnName("commentary_id");
 
         modelBuilder.Entity<Commentary>()
             .Property(c => c.Content)
