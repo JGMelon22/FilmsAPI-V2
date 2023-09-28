@@ -33,7 +33,7 @@ namespace FilmsAPI_V2.Migrations
 
                     b.Property<string>("GenreName")
                         .IsRequired()
-                        .HasMaxLength(150)
+                        
                         .HasColumnType("VARCHAR")
                         .HasColumnName("genre_name");
 

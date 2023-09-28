@@ -14,10 +14,19 @@ public class AppDbContext : DbContext
     public DbSet<Movie> Movies => Set<Movie>();
     public DbSet<Commentary> Commentaries => Set<Commentary>();
 
+    // Setup conventions
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<string>().HaveMaxLength(150);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /// Genre
         // Id
+        modelBuilder.Entity<Genre>()
+            .ToTable("genres");
+
         modelBuilder.Entity<Genre>()
             .HasKey(g => g.GenreId);
 
@@ -36,7 +45,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Genre>()
             .Property(g => g.GenreName)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(150)
             .HasColumnName("genre_name");
 
         /// Actor
@@ -55,7 +63,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Actor>()
             .Property(a => a.ActorName)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(150)
             .HasColumnName("actor_name")
             .IsRequired();
 
@@ -72,10 +79,10 @@ public class AppDbContext : DbContext
             .HasColumnType("DATE")
             .HasColumnName("birthdate");
 
-        // Movie
+        /// Movie
         // Id
         modelBuilder.Entity<Movie>()
-            .ToTable("films");
+            .ToTable("movies");
 
         modelBuilder.Entity<Movie>()
             .HasKey(m => m.MovieId);
@@ -88,7 +95,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Movie>()
             .Property(m => m.Title)
             .HasColumnType("VARCHAR")
-            .HasMaxLength(150)
             .HasColumnName("title")
             .IsRequired();
 
@@ -105,7 +111,23 @@ public class AppDbContext : DbContext
             .HasColumnType("DATE")
             .HasColumnName("release_date");
 
-        // Comment
+        /// Comment
+        modelBuilder.Entity<Commentary>()
+            .ToTable("commentaries");
 
+        modelBuilder.Entity<Commentary>()
+            .HasKey(c => c.CommentaryId);
+
+        modelBuilder.Entity<Commentary>()
+            .HasIndex(c => c.CommentaryId)
+            .HasDatabaseName("commentary_id_idx");
+
+
+        modelBuilder.Entity<Commentary>()
+            .Property(c => c.Content)
+            .HasColumnType("VARCHAR")
+            .HasColumnName("content")
+            .HasMaxLength(500)
+            .IsRequired(false);
     }
 }

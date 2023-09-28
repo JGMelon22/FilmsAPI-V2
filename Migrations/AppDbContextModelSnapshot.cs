@@ -62,14 +62,19 @@ namespace FilmsAPI_V2.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommentaryId"));
 
                     b.Property<string>("Content")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("VARCHAR")
+                        .HasColumnName("content");
 
                     b.Property<bool>("Recommend")
                         .HasColumnType("boolean");
 
                     b.HasKey("CommentaryId");
 
-                    b.ToTable("Commentaries");
+                    b.HasIndex("CommentaryId")
+                        .HasDatabaseName("commentary_id_idx");
+
+                    b.ToTable("commentaries", (string)null);
                 });
 
             modelBuilder.Entity("FilmsAPI_V2.Domain.Entities.Genre", b =>
@@ -124,7 +129,7 @@ namespace FilmsAPI_V2.Migrations
                     b.HasIndex("MovieId")
                         .HasDatabaseName("movie_id_idx");
 
-                    b.ToTable("films", (string)null);
+                    b.ToTable("movies", (string)null);
                 });
 #pragma warning restore 612, 618
         }

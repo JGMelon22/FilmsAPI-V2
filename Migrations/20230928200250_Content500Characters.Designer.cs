@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FilmsAPI_V2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230928195013_MoviesActorsCommentaries")]
-    partial class MoviesActorsCommentaries
+    [Migration("20230928200250_Content500Characters")]
+    partial class Content500Characters
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,7 @@ namespace FilmsAPI_V2.Migrations
 
                     b.Property<string>("ActorName")
                         .IsRequired()
-                        
+                        .HasMaxLength(150)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("actor_name");
 
@@ -65,14 +65,19 @@ namespace FilmsAPI_V2.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommentaryId"));
 
                     b.Property<string>("Content")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("VARCHAR")
+                        .HasColumnName("content");
 
                     b.Property<bool>("Recommend")
                         .HasColumnType("boolean");
 
                     b.HasKey("CommentaryId");
 
-                    b.ToTable("Commentaries");
+                    b.HasIndex("CommentaryId")
+                        .HasDatabaseName("commentary_id_idx");
+
+                    b.ToTable("commentaries", (string)null);
                 });
 
             modelBuilder.Entity("FilmsAPI_V2.Domain.Entities.Genre", b =>
@@ -86,7 +91,7 @@ namespace FilmsAPI_V2.Migrations
 
                     b.Property<string>("GenreName")
                         .IsRequired()
-                        
+                        .HasMaxLength(150)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("genre_name");
 
@@ -118,7 +123,7 @@ namespace FilmsAPI_V2.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        
+                        .HasMaxLength(150)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("title");
 
@@ -127,7 +132,7 @@ namespace FilmsAPI_V2.Migrations
                     b.HasIndex("MovieId")
                         .HasDatabaseName("movie_id_idx");
 
-                    b.ToTable("films", (string)null);
+                    b.ToTable("movies", (string)null);
                 });
 #pragma warning restore 612, 618
         }
