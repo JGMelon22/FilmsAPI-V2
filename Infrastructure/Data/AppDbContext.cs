@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
     public DbSet<Genre> Genres => Set<Genre>();
     public DbSet<Actor> Actors => Set<Actor>();
     public DbSet<Movie> Movies => Set<Movie>();
+    public DbSet<Commentary> Commentaries => Set<Commentary>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -102,7 +103,9 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Movie>()
             .Property(m => m.ReleaseDate)
             .HasColumnType("DATE")
-            .HasColumnName("release_date")
-            .IsRequired(false);
+            .HasColumnName("release_date");
+
+        // Comment
+
     }
 }
