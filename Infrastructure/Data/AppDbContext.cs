@@ -11,16 +11,18 @@ public class AppDbContext : DbContext
 
     public DbSet<Genre> Genres => Set<Genre>();
     public DbSet<Actor> Actors => Set<Actor>();
+    public DbSet<Movie> Movies => Set<Movie>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Genre
+        /// Genre
         // Id
         modelBuilder.Entity<Genre>()
             .HasKey(g => g.GenreId);
 
         modelBuilder.Entity<Genre>()
-            .HasIndex(g => g.GenreId);
+            .HasIndex(g => g.GenreId)
+            .HasDatabaseName("genre_id_idx");
 
         modelBuilder.Entity<Genre>()
             .ToTable("genres");
@@ -36,7 +38,7 @@ public class AppDbContext : DbContext
             .HasMaxLength(150)
             .HasColumnName("genre_name");
 
-        // Actor
+        /// Actor
         // Id
         modelBuilder.Entity<Actor>()
             .ToTable("actors");
@@ -68,5 +70,39 @@ public class AppDbContext : DbContext
             .Property(a => a.BirthDate)
             .HasColumnType("DATE")
             .HasColumnName("birthdate");
+
+        // Movie
+        // Id
+        modelBuilder.Entity<Movie>()
+            .ToTable("films");
+
+        modelBuilder.Entity<Movie>()
+            .HasKey(m => m.MovieId);
+
+        modelBuilder.Entity<Movie>()
+            .HasIndex(m => m.MovieId)
+            .HasDatabaseName("movie_id_idx");
+
+        // Title
+        modelBuilder.Entity<Movie>()
+            .Property(m => m.Title)
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(150)
+            .HasColumnName("title")
+            .IsRequired();
+
+        // IsInCinema
+        modelBuilder.Entity<Movie>()
+            .Property(m => m.IsInCinema)
+            .HasColumnType("boolean")
+            .HasColumnName("is_in_cinema")
+            .HasDefaultValue(false);
+
+        // Release Date
+        modelBuilder.Entity<Movie>()
+            .Property(m => m.ReleaseDate)
+            .HasColumnType("DATE")
+            .HasColumnName("release_date")
+            .IsRequired(false);
     }
 }
