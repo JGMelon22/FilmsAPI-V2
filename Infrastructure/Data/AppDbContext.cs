@@ -43,27 +43,5 @@ public class AppDbContext : DbContext
             .Property(g => g.GenreName)
             .HasColumnType("VARCHAR")
             .HasColumnName("genre_name");
-
-        /// Comment
-        modelBuilder.Entity<Commentary>()
-            .ToTable("commentaries");
-
-        modelBuilder.Entity<Commentary>()
-            .HasKey(c => c.CommentaryId);
-
-        modelBuilder.Entity<Commentary>()
-            .HasIndex(c => c.CommentaryId)
-            .HasDatabaseName("commentary_id_idx");
-
-        modelBuilder.Entity<Commentary>()
-            .Property(c => c.CommentaryId)
-            .HasColumnName("commentary_id");
-
-        modelBuilder.Entity<Commentary>()
-            .Property(c => c.Content)
-            .HasColumnType("VARCHAR")
-            .HasColumnName("content")
-            .HasMaxLength(500)
-            .IsRequired(false);
     }
 }
