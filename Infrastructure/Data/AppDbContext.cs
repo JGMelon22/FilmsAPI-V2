@@ -22,26 +22,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        /// Genre
-        // Id
-        modelBuilder.Entity<Genre>()
-            .ToTable("genres");
-
-        modelBuilder.Entity<Genre>()
-            .HasKey(g => g.GenreId);
-
-        modelBuilder.Entity<Genre>()
-            .HasIndex(g => g.GenreId)
-            .HasDatabaseName("genre_id_idx");
-
-        modelBuilder.Entity<Genre>()
-            .Property(g => g.GenreId)
-            .HasColumnName("genre_id");
-
-        // Name
-        modelBuilder.Entity<Genre>()
-            .Property(g => g.GenreName)
-            .HasColumnType("VARCHAR")
-            .HasColumnName("genre_name");
+        
     }
 }
