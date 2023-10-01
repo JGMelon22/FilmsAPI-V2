@@ -1,5 +1,4 @@
-using FilmsAPI_V2.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+using FilmsAPI_V2.Infrastructure.EntityConfiguration;
 
 namespace FilmsAPI_V2.Infrastructure.Data;
 
@@ -22,6 +21,11 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        modelBuilder.ApplyConfiguration(new ActorConfiguration());
+        modelBuilder.ApplyConfiguration(new CommentaryConfiguration());
+        modelBuilder.ApplyConfiguration(new GenreConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieConfiguration());
+
+        // modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); 
     }
 }
