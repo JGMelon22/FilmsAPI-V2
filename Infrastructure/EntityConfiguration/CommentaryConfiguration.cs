@@ -1,5 +1,3 @@
-using FilmsAPI_V2.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FilmsAPI_V2.Infrastructure.EntityConfiguration;
@@ -15,6 +13,9 @@ public class CommentaryConfiguration : IEntityTypeConfiguration<Commentary>
         builder.HasIndex(c => c.CommentaryId)
             .HasDatabaseName("commentary_id_idx");
 
+        builder.HasIndex(c=>c.MovieId)
+            .HasDatabaseName("commentaries_movie_id_idx");
+
         builder.Property(c => c.CommentaryId)
             .HasColumnName("commentary_id");
 
@@ -22,5 +23,11 @@ public class CommentaryConfiguration : IEntityTypeConfiguration<Commentary>
             .HasColumnType("VARCHAR")
             .HasColumnName("content")
             .HasMaxLength(500);
+
+        // One-To-Many
+        builder.HasOne<Movie>(c => c.Movie)
+            .WithMany(m => m.Commentaries)
+            .HasForeignKey(c => c.MovieId)
+            .HasConstraintName("movie_id");
     }
 }

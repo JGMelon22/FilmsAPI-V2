@@ -3,6 +3,7 @@ using System;
 using FilmsAPI_V2.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FilmsAPI_V2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231001204611_MovieCommentariesRelation")]
+    partial class MovieCommentariesRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,9 +71,6 @@ namespace FilmsAPI_V2.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("content");
 
-                    b.Property<int>("MovieId")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("Recommend")
                         .HasColumnType("boolean");
 
@@ -78,9 +78,6 @@ namespace FilmsAPI_V2.Migrations
 
                     b.HasIndex("CommentaryId")
                         .HasDatabaseName("commentary_id_idx");
-
-                    b.HasIndex("MovieId")
-                        .HasDatabaseName("commentaries_movie_id_idx");
 
                     b.ToTable("commentaries", (string)null);
                 });
@@ -139,23 +136,6 @@ namespace FilmsAPI_V2.Migrations
                         .HasDatabaseName("movie_id_idx");
 
                     b.ToTable("movies", (string)null);
-                });
-
-            modelBuilder.Entity("FilmsAPI_V2.Domain.Entities.Commentary", b =>
-                {
-                    b.HasOne("FilmsAPI_V2.Domain.Entities.Movie", "Movie")
-                        .WithMany("Commentaries")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("movie_id");
-
-                    b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("FilmsAPI_V2.Domain.Entities.Movie", b =>
-                {
-                    b.Navigation("Commentaries");
                 });
 #pragma warning restore 612, 618
         }
