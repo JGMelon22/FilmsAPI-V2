@@ -7,4 +7,7 @@ public class Movie
     public bool IsInCinema { get; set; }
     public DateTime ReleaseDate { get; set; }
     public HashSet<Commentary> Commentaries { get; set; } = new HashSet<Commentary>(); // One-to-Many
+
+    // Many-To-Many with navigation properties
+    public HashSet<Genre> Genres { get; set; } = new HashSet<Genre>();
 }
