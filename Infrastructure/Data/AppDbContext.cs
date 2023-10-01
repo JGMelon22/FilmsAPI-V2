@@ -44,42 +44,6 @@ public class AppDbContext : DbContext
             .HasColumnType("VARCHAR")
             .HasColumnName("genre_name");
 
-        /// Movie
-        // Id
-        modelBuilder.Entity<Movie>()
-            .ToTable("movies");
-
-        modelBuilder.Entity<Movie>()
-            .HasKey(m => m.MovieId);
-
-        modelBuilder.Entity<Movie>()
-            .HasIndex(m => m.MovieId)
-            .HasDatabaseName("movie_id_idx");
-
-        modelBuilder.Entity<Movie>()
-            .Property(m => m.MovieId)
-            .HasColumnName("movie_id");
-
-        // Title
-        modelBuilder.Entity<Movie>()
-            .Property(m => m.Title)
-            .HasColumnType("VARCHAR")
-            .HasColumnName("title")
-            .IsRequired();
-
-        // IsInCinema
-        modelBuilder.Entity<Movie>()
-            .Property(m => m.IsInCinema)
-            .HasColumnType("boolean")
-            .HasColumnName("is_in_cinema")
-            .HasDefaultValue(false);
-
-        // Release Date
-        modelBuilder.Entity<Movie>()
-            .Property(m => m.ReleaseDate)
-            .HasColumnType("DATE")
-            .HasColumnName("release_date");
-
         /// Comment
         modelBuilder.Entity<Commentary>()
             .ToTable("commentaries");
