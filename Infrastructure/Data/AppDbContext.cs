@@ -44,42 +44,6 @@ public class AppDbContext : DbContext
             .HasColumnType("VARCHAR")
             .HasColumnName("genre_name");
 
-        /// Actor
-        // Id
-        modelBuilder.Entity<Actor>()
-            .ToTable("actors");
-
-        modelBuilder.Entity<Actor>()
-            .HasKey(a => a.ActorId);
-
-        modelBuilder.Entity<Actor>()
-            .HasIndex(a => a.ActorId)
-            .HasDatabaseName("actor_id_idx");
-
-        modelBuilder.Entity<Actor>()
-            .Property(a => a.ActorId)
-            .HasColumnName("actor_id");
-
-        // Name
-        modelBuilder.Entity<Actor>()
-            .Property(a => a.ActorName)
-            .HasColumnType("VARCHAR")
-            .HasColumnName("actor_name")
-            .IsRequired();
-
-        // Salary
-        modelBuilder.Entity<Actor>()
-            .Property(a => a.Salary)
-            .HasColumnType("DECIMAL")
-            .HasPrecision(10, 2)
-            .HasColumnName("salary");
-
-        // Birthdate
-        modelBuilder.Entity<Actor>()
-            .Property(a => a.BirthDate)
-            .HasColumnType("DATE")
-            .HasColumnName("birthdate");
-
         /// Movie
         // Id
         modelBuilder.Entity<Movie>()
