@@ -24,8 +24,11 @@ public class CommentaryConfiguration : IEntityTypeConfiguration<Commentary>
             .HasColumnName("content")
             .HasMaxLength(500);
 
+        builder.Property(c=>c.MovieId)
+            .HasColumnName("movie_id");
+
         // One-To-Many
-        builder.HasOne<Movie>(c => c.Movie)
+        builder.HasOne(c => c.Movie)
             .WithMany(m => m.Commentaries)
             .HasForeignKey(c => c.MovieId)
             .HasConstraintName("movie_id");
