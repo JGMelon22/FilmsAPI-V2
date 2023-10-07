@@ -8,14 +8,22 @@ public class MovieActorConfiguration : IEntityTypeConfiguration<MovieActor>
     {
         builder.ToTable("movies_actors");
 
-        builder.HasKey(ma => new { ma.MovieId, ma.ActorId });
+        builder.HasKey(ma => new { ma.ActorId, ma.MovieId });
 
         builder.HasIndex(ma => ma.ActorId)
             .HasDatabaseName("movies_actors_actor_id_idx");
 
-
         builder.HasIndex(ma => ma.MovieId)
             .HasDatabaseName("movies_actors_movie_id_idx");
+
+        // Explicit FK configuration
+        // builder.HasOne(ma => ma.Actor)
+        //     .WithMany(a => a.MoviesActors)
+        //     .HasForeignKey(ma => ma.ActorId);
+
+        // builder.HasOne(ma => ma.Movie)
+        //     .WithMany(m => m.MoviesActors)
+        //     .HasForeignKey(ma.MovieId);
 
         builder.Property(ma => ma.ActorId)
             .HasColumnName("actor_id");

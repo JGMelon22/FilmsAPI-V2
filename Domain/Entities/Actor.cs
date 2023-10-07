@@ -6,5 +6,5 @@ public class Actor
     public string ActorName { get; set; } = null!;
     public decimal Salary { get; set; }
     public DateTime BirthDate { get; set; }
-    public List<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
+    public List<MovieActor> MoviesActors { get; set; } = new List<MovieActor>();
 }

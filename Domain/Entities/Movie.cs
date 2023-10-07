@@ -10,5 +10,5 @@ public class Movie
 
     // Many-To-Many with navigation properties
     public HashSet<Genre> Genres { get; set; } = new HashSet<Genre>();
-    public List<MovieActor> MovieActors {get; set; } = new List<MovieActor>();
+    public List<MovieActor> MoviesActors {get; set; } = new List<MovieActor>();
 }
