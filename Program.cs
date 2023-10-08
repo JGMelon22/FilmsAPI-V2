@@ -1,5 +1,6 @@
 using FilmsAPI_V2.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+using FilmsAPI_V2.Infrastructure.Repositories;
+using FilmsAPI_V2.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +12,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // DbContext service 
-builder.Services.AddDbContext<AppDbContext>(options => 
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 
 var app = builder.Build();
 
