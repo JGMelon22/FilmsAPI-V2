@@ -6,5 +6,5 @@ public class Commentary
     public string? Content { get; set; } 
     public bool Recommend { get; set; }
     public int MovieId { get; set; } // One-To-Many
-    public Movie Movie { get; set; }
+    public Movie Movie { get; set; } = null!;
 }
