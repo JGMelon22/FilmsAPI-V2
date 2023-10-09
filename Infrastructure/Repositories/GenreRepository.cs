@@ -46,10 +46,23 @@ public class GenreRepository : IGenreRepository
     {
         var serviceResponse = new ServiceResponse<GetGenreDto>();
 
-        var genre = await _dbContext.Genres
-            .FindAsync(id);
+        try
+        {
+            var genre = await _dbContext.Genres
+                        .FindAsync(id);
 
-        serviceResponse.Data = genre.Adapt<GetGenreDto>();
+            if (genre != null)
+                serviceResponse.Data = genre.Adapt<GetGenreDto>();
+
+            else
+                throw new Exception("Actor not found!");
+        }
+
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = ex.Message;
+        }
 
         return serviceResponse;
     }
