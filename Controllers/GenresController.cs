@@ -1,12 +1,10 @@
 using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FilmsAPI_V2.Controllers;
 
 [ApiController]
-[Route("api/controller")]
+[Route("api/[controller]")]
 public class GenresController : ControllerBase
 {
     private readonly IGenreRepository _repository;
