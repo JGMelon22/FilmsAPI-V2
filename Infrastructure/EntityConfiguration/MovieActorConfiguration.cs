@@ -17,13 +17,13 @@ public class MovieActorConfiguration : IEntityTypeConfiguration<MovieActor>
             .HasDatabaseName("movies_actors_movie_id_idx");
 
         // Explicit FK configuration
-        // builder.HasOne(ma => ma.Actor)
-        //     .WithMany(a => a.MoviesActors)
-        //     .HasForeignKey(ma => ma.ActorId);
+        builder.HasOne(ma => ma.Actor)
+            .WithMany(a => a.MoviesActors)
+            .HasForeignKey(ma => ma.ActorId);
 
-        // builder.HasOne(ma => ma.Movie)
-        //     .WithMany(m => m.MoviesActors)
-        //     .HasForeignKey(ma.MovieId);
+        builder.HasOne(ma => ma.Movie)
+            .WithMany(m => m.MoviesActors)
+            .HasForeignKey(ma => ma.MovieId);
 
         builder.Property(ma => ma.ActorId)
             .HasColumnName("actor_id");
