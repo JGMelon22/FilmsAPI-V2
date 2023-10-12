@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using FilmsAPI_V2.DTOs.Movie;
 
-namespace FilmsAPI_V2.Interfaces
+namespace FilmsAPI_V2.Interfaces;
+
+public interface IMovieRepository
 {
-    public class IMovieRepository
-    {
-        
-    }
+    Task<List<Movie>> GetAllMovies();
+    Task<Movie> GetMovieById(int id);
+    Task AddMovie(AddMovieDto newMovie);
 }

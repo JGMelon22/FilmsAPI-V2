@@ -1,6 +1,7 @@
 using FilmsAPI_V2.DTOs.Actor;
 using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Infrastructure.Data;
+using FilmsAPI_V2.Infrastructure.Mapping;
 using FilmsAPI_V2.Infrastructure.Repositories;
 using FilmsAPI_V2.Infrastructure.Validators.Actor;
 using FilmsAPI_V2.Infrastructure.Validators.Genre;
@@ -21,6 +22,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
+// Mapster
+builder.Services.RegisterMapsterConfiguration();
+
 // Fluent Validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IValidator<AddGenreDto>, AddGenreValidator>();
@@ -31,6 +35,7 @@ builder.Services.AddScoped<IValidator<UpdateActorDto>, UpdateActorValidator>();
 // Interface and Repositories
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
 var app = builder.Build();
 
