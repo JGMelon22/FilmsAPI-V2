@@ -43,15 +43,38 @@ public class MovieRepository : IMovieRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<Movie>> GetAllMovies()
+    public async Task<ServiceResponse<List<GetMovieDto>>> GetAllMovies()
     {
-        return await _dbContext.Movies
+        var serviceResponse = new ServiceResponse<List<GetMovieDto>>();
+        var movies = await _dbContext.Movies
             .AsNoTracking()
             .ToListAsync();
+
+        serviceResponse.Data = movies.Adapt<List<GetMovieDto>>();
+
+        return serviceResponse;
     }
 
-    public Task<Movie> GetMovieById(int id)
+    public async Task<ServiceResponse<GetMovieDto>> GetMovieById(int id)
     {
-        throw new NotImplementedException();
+        var serviceResponse = new ServiceResponse<GetMovieDto>();
+
+        try
+        {
+            var movie = await _dbContext.Movies.FindAsync(id);
+
+            if (movie != null)
+                serviceResponse.Data = movie.Adapt<GetMovieDto>();
+
+            throw new Exception("Movie not found!");
+        }
+
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = ex.Message;
+        }
+
+        return serviceResponse;
     }
 }

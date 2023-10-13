@@ -1,5 +1,6 @@
 using FilmsAPI_V2.DTOs.Movie;
 using FilmsAPI_V2.Interfaces;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FilmsAPI_V2.Controllers;
 
@@ -30,5 +31,17 @@ public class MoviesController : ControllerBase
         return movies != null
             ? Ok(movies)
             : NoContent();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Detail(int id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var movie = await _repository.GetMovieById(id);
+        return movie.Data != null
+            ? Ok(movie)
+            : NotFound();
     }
 }
