@@ -1,3 +1,4 @@
+using System.Data;
 using FilmsAPI_V2.DTOs.Actor;
 using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Infrastructure.Data;
@@ -8,6 +9,7 @@ using FilmsAPI_V2.Infrastructure.Validators.Genre;
 using FilmsAPI_V2.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,10 @@ builder.Services.AddSwaggerGen();
 // DbContext service 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+// IDBConnection
+builder.Services.AddScoped<IDbConnection>(x =>
+    new NpgsqlConnection(builder.Configuration.GetConnectionString("Default")));
 
 // Mapster
 builder.Services.RegisterMapsterConfiguration();

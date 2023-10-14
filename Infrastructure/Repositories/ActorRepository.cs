@@ -1,3 +1,5 @@
+using System.Data;
+using Dapper;
 using FilmsAPI_V2.DTOs.Actor;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;
@@ -8,9 +10,13 @@ namespace FilmsAPI_V2.Infrastructure.Repositories;
 public class ActorRepository : IActorRepository
 {
     private readonly AppDbContext _dbContext;
-    public ActorRepository(AppDbContext dbContext)
+    private readonly IDbConnection _dbConnection;
+
+    public ActorRepository(AppDbContext dbContext, IDbConnection dbConnection)
     {
         _dbContext = dbContext;
+        _dbConnection = dbConnection;
+
     }
 
     public async Task AddActor(AddActorDto newActor)
@@ -55,12 +61,19 @@ public class ActorRepository : IActorRepository
     public async Task<ServiceResponse<List<GetActorDto>>> GetAllActors()
     {
         var serviceResponse = new ServiceResponse<List<GetActorDto>>();
+        var getActorsQuery = @"SELECT actor_id AS ActorId, 
+                                      actor_name AS ActorName,
+                                      salary AS Salary,
+                                      birthdate AS BirthDate
+                               FROM actors;";
 
-        var actors = await _dbContext.Actors
-            .AsNoTracking()
-            .ToListAsync();
+        _dbConnection.Open();
 
-        serviceResponse.Data = actors.Adapt<List<GetActorDto>>();
+        var result = await _dbConnection.QueryAsync<GetActorDto>(getActorsQuery);
+
+        serviceResponse.Data = result.Adapt<List<GetActorDto>>().ToList();
+
+        _dbConnection.Close();
 
         return serviceResponse;
     }

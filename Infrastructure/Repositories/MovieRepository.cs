@@ -8,6 +8,7 @@ namespace FilmsAPI_V2.Infrastructure.Repositories;
 public class MovieRepository : IMovieRepository
 {
     private readonly AppDbContext _dbContext;
+
     public MovieRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;

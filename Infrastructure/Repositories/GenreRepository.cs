@@ -1,6 +1,9 @@
+using System.Data;
+using Dapper;
 using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;
+using FilmsAPI_V2.Migrations;
 using Mapster;
 
 namespace FilmsAPI_V2.Infrastructure.Repositories;
@@ -8,9 +11,13 @@ namespace FilmsAPI_V2.Infrastructure.Repositories;
 public class GenreRepository : IGenreRepository
 {
     private readonly AppDbContext _dbContext;
-    public GenreRepository(AppDbContext dbContext)
+    private readonly IDbConnection _dbConnection;
+
+    public GenreRepository(AppDbContext dbContext, IDbConnection dbConnection)
     {
         _dbContext = dbContext;
+        _dbConnection = dbConnection;
+
     }
 
     public async Task AddGenre(AddGenreDto newGenre)
@@ -33,11 +40,17 @@ public class GenreRepository : IGenreRepository
     {
         var serviceResponse = new ServiceResponse<List<GetGenreDto>>();
 
-        var genres = await _dbContext.Genres
-            .AsNoTracking()
-            .ToListAsync();
+        var getGenresQuery = @"SELECT genre_id AS GenreId, 
+                                      genre_name AS GenreName
+                               FROM genres;";
 
-        serviceResponse.Data = genres.Adapt<List<GetGenreDto>>();
+        _dbConnection.Open();
+
+        var result = await _dbConnection.QueryAsync<GetGenreDto>(getGenresQuery);
+
+        serviceResponse.Data = result.Adapt<List<GetGenreDto>>().ToList();
+
+        _dbConnection.Close();
 
         return serviceResponse;
     }
