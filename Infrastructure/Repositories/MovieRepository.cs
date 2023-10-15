@@ -1,4 +1,7 @@
+using System.Data;
+using Dapper;
 using FilmsAPI_V2.DTOs.Movie;
+using FilmsAPI_V2.DTOs.MovieActor;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;
 using Mapster;
@@ -78,4 +81,5 @@ public class MovieRepository : IMovieRepository
 
         return serviceResponse;
     }
+
 }

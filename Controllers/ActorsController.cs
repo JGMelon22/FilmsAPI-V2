@@ -67,7 +67,7 @@ public class ActorsController : ControllerBase
             : NotFound(actor);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         if (!ModelState.IsValid)

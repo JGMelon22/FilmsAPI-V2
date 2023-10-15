@@ -66,7 +66,7 @@ public class GenresController : ControllerBase
             : NotFound();
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         if (!ModelState.IsValid)
