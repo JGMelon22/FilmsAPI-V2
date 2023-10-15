@@ -20,5 +20,14 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
             .HasColumnType("VARCHAR")
             .HasColumnName("genre_name")
             .IsRequired();
+
+        // Seed Data
+        Genre comedy = new Genre {GenreId = 2, GenreName = "Comedy"};
+        Genre drama = new Genre {GenreId = 3, GenreName = "Drama"};
+        Genre Thriller = new Genre {GenreId = 4, GenreName = "Thriller"};
+        Genre War = new Genre {GenreId = 5, GenreName = "War"};
+        Genre SciFi = new Genre {GenreId = 6, GenreName = "Sci Fi"};
+
+        builder.HasData(comedy, drama, Thriller, War, SciFi);
     }
 }

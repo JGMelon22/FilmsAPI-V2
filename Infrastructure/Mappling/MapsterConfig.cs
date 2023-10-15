@@ -9,6 +9,8 @@ public static class MapsterConfig
     {
         TypeAdapterConfig<AddMovieDto, Movie>
         .NewConfig()
-        .Map(dest => dest.Genres, src => src.Genres.Select(id => new Genre { GenreId = id }));
+        .Map(dest => dest.Genres,
+            src => src.Genres
+            .Select(id => new Genre { GenreId = id }));
     }
 }
