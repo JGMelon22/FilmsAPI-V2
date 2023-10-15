@@ -13,7 +13,7 @@ public class CommentaryConfiguration : IEntityTypeConfiguration<Commentary>
         builder.HasIndex(c => c.CommentaryId)
             .HasDatabaseName("commentary_id_idx");
 
-        builder.HasIndex(c=>c.MovieId)
+        builder.HasIndex(c => c.MovieId)
             .HasDatabaseName("commentaries_movie_id_idx");
 
         builder.Property(c => c.CommentaryId)
@@ -24,7 +24,12 @@ public class CommentaryConfiguration : IEntityTypeConfiguration<Commentary>
             .HasColumnName("content")
             .HasMaxLength(500);
 
-        builder.Property(c=>c.MovieId)
+        builder.Property(c => c.Recommend)
+            .HasColumnType("BOOLEAN")
+            .HasColumnName("recommend")
+            .IsRequired();
+
+        builder.Property(c => c.MovieId)
             .HasColumnName("movie_id");
 
         // One-To-Many
