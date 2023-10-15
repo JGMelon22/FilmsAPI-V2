@@ -42,6 +42,7 @@ builder.Services.AddScoped<IValidator<UpdateActorDto>, UpdateActorValidator>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<ICommentaryRepository, CommentaryRepository>();
 
 var app = builder.Build();
 
