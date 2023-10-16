@@ -20,6 +20,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORS service
+builder.Services.AddCors();
+
 // DbContext service 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
@@ -45,6 +48,14 @@ builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<ICommentaryRepository, CommentaryRepository>();
 
 var app = builder.Build();
+
+// CORS usage
+app.UseCors(c =>
+{
+    c.WithOrigins("http://localhost:5173");
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
