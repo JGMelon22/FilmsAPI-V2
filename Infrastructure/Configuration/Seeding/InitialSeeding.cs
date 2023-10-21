@@ -5,27 +5,27 @@ public static class InitialSeeding
     public static void Seed(ModelBuilder builder)
     {
         // Genres
-        Genre Adventure = new Genre()
+        Genre adventure = new Genre()
         {
             GenreId = 1,
             GenreName = "Adventure"
         };
 
 
-        Genre Horror = new Genre()
+        Genre horror = new Genre()
         {
             GenreId = 2,
             GenreName = "Horror"
         };
 
-        Genre SciFi = new Genre()
+        Genre sciFi = new Genre()
         {
             GenreId = 3,
             GenreName = "Sci Fi"
         };
 
         // Actors
-        Actor HeatherLangenkamp = new Actor()
+        Actor heatherLangenkamp = new Actor()
         {
             ActorId = 1,
             ActorName = "Heather Langenkamp",
@@ -33,7 +33,7 @@ public static class InitialSeeding
             Salary = 1700
         };
 
-        Actor HarrisonFord = new Actor()
+        Actor harrisonFord = new Actor()
         {
             ActorId = 2,
             ActorName = "Harrison Ford",
@@ -41,7 +41,7 @@ public static class InitialSeeding
             Salary = 18000
         };
 
-        Actor MarkHamill = new Actor()
+        Actor markHamill = new Actor()
         {
             ActorId = 3,
             ActorName = "Mark Hamill",
@@ -49,7 +49,7 @@ public static class InitialSeeding
             Salary = 19000
         };
 
-        Actor LouisGossettJr = new Actor()
+        Actor louisGossettJr = new Actor()
         {
             ActorId = 4,
             ActorName = "Louis Gossett Jr",
@@ -58,7 +58,7 @@ public static class InitialSeeding
         };
 
         // Movies
-        Movie IndianaJones = new Movie()
+        Movie indianaJones = new Movie()
         {
             MovieId = 1,
             Title = "Indiana Jones",
@@ -66,7 +66,7 @@ public static class InitialSeeding
             ReleaseDate = new DateTime(1981, 6, 12)
         };
 
-        Movie ANightmareOnElmStreet = new Movie()
+        Movie aNightmareOnElmStreet = new Movie()
         {
             MovieId = 2,
             Title = "A Nightmare on Elm Street",
@@ -74,7 +74,7 @@ public static class InitialSeeding
             ReleaseDate = new DateTime(1981, 6, 12)
         };
 
-        Movie StarWars = new Movie()
+        Movie starWars = new Movie()
         {
             MovieId = 3,
             Title = "Star Wars",
@@ -82,7 +82,7 @@ public static class InitialSeeding
             ReleaseDate = new DateTime(1977, 5, 25)
         };
 
-        Movie Jaws3D = new Movie()
+        Movie jawsThree = new Movie()
         {
             MovieId = 4,
             Title = "Jaws 3D",
@@ -90,8 +90,8 @@ public static class InitialSeeding
             ReleaseDate = new DateTime(1981, 7, 22)
         };
 
-        builder.Entity<Genre>().HasData(Adventure, Horror, SciFi);
-        builder.Entity<Actor>().HasData(HeatherLangenkamp, HarrisonFord, MarkHamill, LouisGossettJr);
-        builder.Entity<Movie>().HasData(ANightmareOnElmStreet, IndianaJones, StarWars, Jaws3D);
+        builder.Entity<Genre>().HasData(adventure, horror, sciFi);
+        builder.Entity<Actor>().HasData(heatherLangenkamp, harrisonFord, markHamill, louisGossettJr);
+        builder.Entity<Movie>().HasData(aNightmareOnElmStreet, indianaJones, starWars, jawsThree);
     }
 }
