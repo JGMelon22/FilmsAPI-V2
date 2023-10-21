@@ -2,7 +2,7 @@ namespace FilmsAPI_V2.Infrastructure.Configuration.Seeding;
 
 public static class InitialSeeding
 {
-    public static void Seed(ModelBuilder builder)
+    public static void Seed(ModelBuilder modelBuilder)
     {
         // Genres
         Genre adventure = new Genre()
@@ -133,7 +133,7 @@ public static class InitialSeeding
         int horrorGenre = 2;
         int sciFiGenre = 3;
 
-        builder.Entity(tableGenreMovie).HasData(
+        modelBuilder.Entity(tableGenreMovie).HasData(
             new Dictionary<string, object>
             {
                 [genresGenreIdProperty] = adventureGenre,
@@ -194,10 +194,10 @@ public static class InitialSeeding
             Character = "Calvin Bouchard"
         };
 
-        builder.Entity<Genre>().HasData(adventure, horror, sciFi);
-        builder.Entity<Actor>().HasData(heatherLangenkamp, harrisonFord, markHamill, louisGossettJr);
-        builder.Entity<Movie>().HasData(aNightmareOnElmStreet, indianaJones, starWars, jawsThree);
-        builder.Entity<Commentary>().HasData(firstCommentary, secondCommentary, thirdCommentary, fourthCommentary);
-        builder.Entity<MovieActor>().HasData(heatherLangenkampAnightmareOnElmStreet, harrisonFordIndianaJones, markHamillStarWars, louisGossettJrJawsThree);
+        modelBuilder.Entity<Genre>().HasData(adventure, horror, sciFi);
+        modelBuilder.Entity<Actor>().HasData(heatherLangenkamp, harrisonFord, markHamill, louisGossettJr);
+        modelBuilder.Entity<Movie>().HasData(aNightmareOnElmStreet, indianaJones, starWars, jawsThree);
+        modelBuilder.Entity<Commentary>().HasData(firstCommentary, secondCommentary, thirdCommentary, fourthCommentary);
+        modelBuilder.Entity<MovieActor>().HasData(heatherLangenkampAnightmareOnElmStreet, harrisonFordIndianaJones, markHamillStarWars, louisGossettJrJawsThree);
     }
 }
