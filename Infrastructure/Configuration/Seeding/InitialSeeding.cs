@@ -90,8 +90,114 @@ public static class InitialSeeding
             ReleaseDate = new DateTime(1981, 7, 22)
         };
 
+        // Commentaries
+        Commentary firstCommentary = new Commentary()
+        {
+            CommentaryId = 1,
+            Recommend = true,
+            Content = "Superb!",
+            MovieId = indianaJones.MovieId
+        };
+
+        Commentary secondCommentary = new Commentary()
+        {
+            CommentaryId = 2,
+            Recommend = true,
+            Content = "Wes Craven rocks!",
+            MovieId = aNightmareOnElmStreet.MovieId
+        };
+
+        Commentary thirdCommentary = new Commentary()
+        {
+            CommentaryId = 3,
+            Recommend = false,
+            Content = "A heave decline on Jaws saga",
+            MovieId = jawsThree.MovieId
+        };
+
+        Commentary fourthCommentary = new Commentary()
+        {
+            CommentaryId = 4,
+            Recommend = true,
+            Content = "Light Sabers are the future!",
+            MovieId = starWars.MovieId
+        };
+
+        #region
+        // Many-to-Many data insert (without intermediate entity)
+        // GenreMovie
+        string tableGenreMovie = "GenreMovie";
+        string genresGenreIdProperty = "GenresGenreId";
+        string moviesMovieIdProperty = "MoviesMovieId";
+        int adventureGenre = 1;
+        int horrorGenre = 2;
+        int sciFiGenre = 3;
+
+        builder.Entity(tableGenreMovie).HasData(
+            new Dictionary<string, object>
+            {
+                [genresGenreIdProperty] = adventureGenre,
+                [moviesMovieIdProperty] = indianaJones.MovieId
+            },
+
+            new Dictionary<string, object>
+            {
+                [genresGenreIdProperty] = horrorGenre,
+                [moviesMovieIdProperty] = aNightmareOnElmStreet.MovieId
+            },
+
+             new Dictionary<string, object>
+             {
+                 [genresGenreIdProperty] = horrorGenre,
+                 [moviesMovieIdProperty] = jawsThree.MovieId
+             },
+
+            new Dictionary<string, object>
+            {
+                [genresGenreIdProperty] = sciFiGenre,
+                [moviesMovieIdProperty] = starWars.MovieId
+            }
+        );
+        # endregion
+
+        // Many-to-Many data insert (with intermediate entity)
+        // MovieActor
+        MovieActor heatherLangenkampAnightmareOnElmStreet = new MovieActor()
+        {
+            ActorId = heatherLangenkamp.ActorId,
+            MovieId = aNightmareOnElmStreet.MovieId,
+            Order = 1,
+            Character = "Nancy Thompson"
+        };
+
+        MovieActor harrisonFordIndianaJones = new MovieActor()
+        {
+            ActorId = harrisonFord.ActorId,
+            MovieId = indianaJones.MovieId,
+            Order = 2,
+            Character = "Indiana Jones"
+        };
+
+        MovieActor markHamillStarWars = new MovieActor()
+        {
+            ActorId = markHamill.ActorId,
+            MovieId = starWars.MovieId,
+            Order = 3,
+            Character = "Luke SkyWalker"
+        };
+
+        MovieActor louisGossettJrJawsThree = new MovieActor()
+        {
+            ActorId = louisGossettJr.ActorId,
+            MovieId = jawsThree.MovieId,
+            Order = 4,
+            Character = "Calvin Bouchard"
+        };
+
         builder.Entity<Genre>().HasData(adventure, horror, sciFi);
         builder.Entity<Actor>().HasData(heatherLangenkamp, harrisonFord, markHamill, louisGossettJr);
         builder.Entity<Movie>().HasData(aNightmareOnElmStreet, indianaJones, starWars, jawsThree);
+        builder.Entity<Commentary>().HasData(firstCommentary, secondCommentary, thirdCommentary, fourthCommentary);
+        builder.Entity<MovieActor>().HasData(heatherLangenkampAnightmareOnElmStreet, harrisonFordIndianaJones, markHamillStarWars, louisGossettJrJawsThree);
     }
 }
