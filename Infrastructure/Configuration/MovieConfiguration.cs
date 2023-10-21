@@ -1,5 +1,3 @@
-using FilmsAPI_V2.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FilmsAPI_V2.Infrastructure.EntityConfiguration;
