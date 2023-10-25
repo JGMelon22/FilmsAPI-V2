@@ -1,3 +1,5 @@
+using System.Data;
+using Dapper;
 using FilmsAPI_V2.DTOs.Movie;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;
@@ -8,10 +10,12 @@ namespace FilmsAPI_V2.Infrastructure.Repositories;
 public class MovieRepository : IMovieRepository
 {
     private readonly AppDbContext _dbContext;
+    private readonly IDbConnection _dbConnection;
 
-    public MovieRepository(AppDbContext dbContext)
+    public MovieRepository(AppDbContext dbContext, IDbConnection dbConnection)
     {
         _dbContext = dbContext;
+        _dbConnection = dbConnection;
     }
 
     public async Task AddMovie(AddMovieDto newMovie)
@@ -47,11 +51,19 @@ public class MovieRepository : IMovieRepository
     public async Task<ServiceResponse<List<GetMovieDto>>> GetAllMovies()
     {
         var serviceResponse = new ServiceResponse<List<GetMovieDto>>();
-        var movies = await _dbContext.Movies
-            .AsNoTracking()
-            .ToListAsync();
 
+        var getMoviesQuery = @"select movie_id as MovieId,
+                            	      title as Title, 
+                            	      is_in_cinema as IsInCinema,
+                            	      release_date as ReleaseDate
+                              from movies;";
+
+        _dbConnection.Open();
+
+        var movies = await _dbConnection.QueryAsync<GetMovieDto>(getMoviesQuery);
         serviceResponse.Data = movies.Adapt<List<GetMovieDto>>();
+
+        _dbConnection.Close();
 
         return serviceResponse;
     }
