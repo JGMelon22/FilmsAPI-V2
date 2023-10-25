@@ -44,4 +44,26 @@ public class MoviesController : ControllerBase
             ? Ok(movie)
             : NotFound();
     }
+
+    [HttpPut]
+    public async Task<IActionResult> Edit(UpdateMovieDto updatedMovie)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var movie = await _repository.UpdateMovie(updatedMovie);
+        return movie.Data != null
+            ? Ok(movie)
+            : NotFound();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        await _repository.RemoveMovie(id);
+        return NoContent();
+    }
 }
