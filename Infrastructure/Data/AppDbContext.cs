@@ -1,6 +1,5 @@
 using System.Reflection;
 using FilmsAPI_V2.Infrastructure.Configuration.Seeding;
-using FilmsAPI_V2.Infrastructure.EntityConfiguration;
 
 namespace FilmsAPI_V2.Infrastructure.Data;
 

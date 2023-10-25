@@ -1,4 +1,3 @@
-using FilmsAPI_V2.DTOs.Actor;
 using FilmsAPI_V2.DTOs.Commentary;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;

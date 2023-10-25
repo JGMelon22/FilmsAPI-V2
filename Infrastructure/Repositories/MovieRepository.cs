@@ -1,7 +1,4 @@
-using System.Data;
-using Dapper;
 using FilmsAPI_V2.DTOs.Movie;
-using FilmsAPI_V2.DTOs.MovieActor;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;
 using Mapster;
@@ -82,4 +79,57 @@ public class MovieRepository : IMovieRepository
         return serviceResponse;
     }
 
+    public async Task RemoveMovie(int id)
+    {
+        var serviceResponse = new ServiceResponse<Movie>();
+
+        try
+        {
+            var movie = await _dbContext.Movies.FindAsync(id);
+
+            if (movie == null)
+                throw new Exception("Movie not found!");
+
+            _dbContext.Movies.Remove(movie);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = ex.Message;
+        }
+    }
+
+    public async Task<ServiceResponse<GetMovieDto>> UpdateMovie(UpdateMovieDto updatedMovie)
+    {
+        var serviceResponse = new ServiceResponse<GetMovieDto>();
+
+        try
+        {
+            var movie = await _dbContext.Movies.FindAsync(updatedMovie.MovieId);
+
+            if (movie != null)
+            {
+                movie.Adapt<UpdateMovieDto>();
+
+                movie.Title = updatedMovie.Title;
+                movie.IsInCinema = updatedMovie.IsInCinema;
+                movie.ReleaseDate = updatedMovie.ReleaseDate;
+
+                await _dbContext.SaveChangesAsync();
+            }
+
+            else
+                throw new Exception("Movie to update not found!");
+        }
+
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = ex.Message;
+        }
+
+        return serviceResponse;
+    }
 }

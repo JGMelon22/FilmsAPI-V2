@@ -3,7 +3,6 @@ using Dapper;
 using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;
-using FilmsAPI_V2.Migrations;
 using Mapster;
 
 namespace FilmsAPI_V2.Infrastructure.Repositories;
