@@ -1,6 +1,5 @@
 using FilmsAPI_V2.DTOs.Movie;
 using FilmsAPI_V2.Interfaces;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FilmsAPI_V2.Controllers;
 
