@@ -119,17 +119,20 @@ public class MovieRepository : IMovieRepository
 
         try
         {
-            var movie = await _dbContext.Movies.FindAsync(updatedMovie.MovieId);
+            var movie = await _dbContext.Movies.FirstOrDefaultAsync(x => x.MovieId == updatedMovie.MovieId);
 
             if (movie != null)
             {
-                movie.Adapt<UpdateMovieDto>();
+                
+                movie.Adapt<UpdateMovieDto>(); // UpdateMap
 
                 movie.Title = updatedMovie.Title;
                 movie.IsInCinema = updatedMovie.IsInCinema;
                 movie.ReleaseDate = updatedMovie.ReleaseDate;
 
                 await _dbContext.SaveChangesAsync();
+
+                serviceResponse.Data = movie.Adapt<GetMovieDto>();
             }
 
             else
