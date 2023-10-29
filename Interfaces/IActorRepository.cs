@@ -6,6 +6,7 @@ public interface IActorRepository
 {
     Task<ServiceResponse<List<GetActorDto>>> GetAllActors();
     Task<ServiceResponse<GetActorDto>> GetActorById(int id);
+    Task<ServiceResponse<GetActorDto>> GetActorByName(string actorName);
     Task AddActor(AddActorDto newActor);
     Task AddActors(AddActorDto[] newActors);
     Task<ServiceResponse<GetActorDto>> UpdateActor(UpdateActorDto updateActor);

@@ -58,6 +58,40 @@ public class ActorRepository : IActorRepository
         return serviceResponse;
     }
 
+    public async Task<ServiceResponse<GetActorDto>> GetActorByName(string actorName)
+    {
+        var serviceResponse = new ServiceResponse<GetActorDto>();
+        var getActorByNameQuery = @"SELECT actor_id AS ActorId,
+                                    	   actor_name AS ActorName,
+                                    	   salary AS Salary,
+                                    	   birthdate AS Birthdate 
+                                    FROM actors
+                                    WHERE actor_name = @actorName;";
+        try
+        {
+            _dbConnection.Open();
+
+            var actor = await _dbConnection.QueryFirstOrDefaultAsync<Actor>(getActorByNameQuery, new
+            {
+                ActorName = actorName
+            });
+
+            if (actor == null)
+                throw new Exception("Actor not found!");
+
+            serviceResponse.Data = actor.Adapt<GetActorDto>();
+            _dbConnection.Close();
+        }
+
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = ex.Message;
+        }
+
+        return serviceResponse;
+    }
+
     public async Task<ServiceResponse<List<GetActorDto>>> GetAllActors()
     {
         var serviceResponse = new ServiceResponse<List<GetActorDto>>();

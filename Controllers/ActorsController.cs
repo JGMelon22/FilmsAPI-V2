@@ -34,6 +34,18 @@ public class ActorsController : ControllerBase
             : NotFound(actor);
     }
 
+    [HttpGet("name/{actorName}")]
+    public async Task<IActionResult> GetActorByName(string actorName)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var actor = await _repository.GetActorByName(actorName);
+        return actor.Data != null
+            ? Ok(actor)
+            : NotFound(actor);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(AddActorDto newActor)
     {
