@@ -39,17 +39,25 @@ public class GenreRepository : IGenreRepository
     {
         var serviceResponse = new ServiceResponse<List<GetGenreDto>>();
 
-        var getGenresQuery = @"SELECT genre_id AS GenreId, 
-                                      genre_name AS GenreName
-                               FROM genres;";
+        // var getGenresQuery = @"SELECT genre_id AS GenreId, 
+        //                               genre_name AS GenreName
+        //                        FROM genres;";
 
-        _dbConnection.Open();
+        // _dbConnection.Open();
 
-        var result = await _dbConnection.QueryAsync<GetGenreDto>(getGenresQuery);
+        // var result = await _dbConnection.QueryAsync<GetGenreDto>(getGenresQuery);
 
-        serviceResponse.Data = result.Adapt<List<GetGenreDto>>().ToList();
+        // serviceResponse.Data = result.Adapt<List<GetGenreDto>>().ToList();
 
-        _dbConnection.Close();
+        // _dbConnection.Close();
+
+        var genres = await _dbContext.Database.SqlQueryRaw<GetGenreDto>(
+            @$"SELECT genre_id AS GenreId, 
+                     genre_name AS GenreName
+              FROM genres;"
+        ).ToListAsync();
+
+        serviceResponse.Data = genres.Adapt<List<GetGenreDto>>().ToList();
 
         return serviceResponse;
     }
