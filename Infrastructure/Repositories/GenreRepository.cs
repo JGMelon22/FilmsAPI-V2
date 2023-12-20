@@ -112,7 +112,7 @@ public class GenreRepository : IGenreRepository
         }
     }
 
-    public async Task<ServiceResponse<GenreResult>> UpdateGenre(UpdateGenreDto updatedGenre)
+    public async Task<ServiceResponse<GenreResult>> UpdateGenre(GenreInput updatedGenre)
     {
         var serviceResponse = new ServiceResponse<GenreResult>();
         try
@@ -122,7 +122,7 @@ public class GenreRepository : IGenreRepository
             if (genre == null)
                 throw new Exception("Genre not found!");
 
-            genre.Adapt<UpdateGenreDto>();
+            genre.Adapt<GenreInput>();
 
             genre.GenreName = updatedGenre.GenreName;
 

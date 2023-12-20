@@ -57,7 +57,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Edit(UpdateGenreDto updatedGenre)
+    public async Task<IActionResult> Edit(GenreInput updatedGenre)
     {
         if (!ModelState.IsValid)
             return BadRequest();

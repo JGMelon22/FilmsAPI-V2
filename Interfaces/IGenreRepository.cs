@@ -8,6 +8,6 @@ public interface IGenreRepository
     Task<ServiceResponse<GenreResult>> GetGenreById(int id);
     Task AddGenre(GenreInput newGenre);
     Task AddGenres(GenreInput[] newGenres);
-    Task<ServiceResponse<GenreResult>> UpdateGenre(UpdateGenreDto updatedGenre);
+    Task<ServiceResponse<GenreResult>> UpdateGenre(GenreInput updatedGenre);
     Task RemoveGenre(int id);
 }

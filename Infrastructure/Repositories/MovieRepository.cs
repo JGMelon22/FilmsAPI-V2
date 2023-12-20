@@ -115,7 +115,7 @@ public class MovieRepository : IMovieRepository
         }
     }
 
-    public async Task<ServiceResponse<MovieResult>> UpdateMovie(UpdateMovieDto updatedMovie)
+    public async Task<ServiceResponse<MovieResult>> UpdateMovie(MovieInput updatedMovie)
     {
         var serviceResponse = new ServiceResponse<MovieResult>();
 
@@ -126,7 +126,7 @@ public class MovieRepository : IMovieRepository
             if (movie != null)
             {
                 
-                movie.Adapt<UpdateMovieDto>(); // UpdateMap
+                movie.Adapt<MovieInput>(); // UpdateMap
 
                 movie.Title = updatedMovie.Title;
                 movie.IsInCinema = updatedMovie.IsInCinema;

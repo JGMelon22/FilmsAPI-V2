@@ -46,7 +46,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Edit(UpdateMovieDto updatedMovie)
+    public async Task<IActionResult> Edit(MovieInput updatedMovie)
     {
         if (!ModelState.IsValid)
             return BadRequest();
