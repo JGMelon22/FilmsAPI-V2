@@ -66,7 +66,7 @@ public class GenreRepository : IGenreRepository
                 serviceResponse.Data = genre.Adapt<GenreResult>();
 
             else
-                throw new Exception("Actor not found!");
+                throw new Exception("Genre not found!");
         }
 
         catch (Exception ex)

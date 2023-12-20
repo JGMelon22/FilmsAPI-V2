@@ -44,7 +44,7 @@ public class MoviesController : ControllerBase
             : NotFound();
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Edit(int id, MovieInput updatedMovie)
     {
         if (!ModelState.IsValid)

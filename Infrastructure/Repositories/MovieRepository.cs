@@ -127,9 +127,6 @@ public class MovieRepository : IMovieRepository
 
             if (movie != null)
             {
-
-                movie.Adapt<MovieInput>(); // UpdateMap
-
                 movie.Title = updatedMovie.Title;
                 movie.IsInCinema = updatedMovie.IsInCinema;
                 movie.ReleaseDate = updatedMovie.ReleaseDate;

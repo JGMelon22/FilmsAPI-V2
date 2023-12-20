@@ -63,7 +63,7 @@ public class GenresController : ControllerBase
             : NotFound();
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Edit(int id, GenreInput updatedGenre)
     {
         ValidationResult validatorResult = await _genreInputValidator.ValidateAsync(updatedGenre);
