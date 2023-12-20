@@ -115,13 +115,13 @@ public class MovieRepository : IMovieRepository
         }
     }
 
-    public async Task<ServiceResponse<MovieResult>> UpdateMovie(MovieInput updatedMovie)
+    public async Task<ServiceResponse<MovieResult>> UpdateMovie(int id, MovieInput updatedMovie)
     {
         var serviceResponse = new ServiceResponse<MovieResult>();
 
         try
         {
-            var movie = await _dbContext.Movies.FirstOrDefaultAsync(x => x.MovieId == updatedMovie.MovieId);
+            var movie = await _dbContext.Movies.FindAsync(id);
 
             if (movie != null)
             {

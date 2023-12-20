@@ -64,14 +64,14 @@ public class GenresController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Edit(GenreInput updatedGenre)
+    public async Task<IActionResult> Edit(int id, GenreInput updatedGenre)
     {
         ValidationResult validatorResult = await _genreInputValidator.ValidateAsync(updatedGenre);
 
         if (!validatorResult.IsValid)
             return BadRequest(string.Join(',', validatorResult.Errors));
 
-        var genre = await _repository.UpdateGenre(updatedGenre);
+        var genre = await _repository.UpdateGenre(id, updatedGenre);
         return genre.Data != null
             ? Ok(genre)
             : NotFound();

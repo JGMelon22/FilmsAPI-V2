@@ -78,14 +78,14 @@ public class ActorsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Edit(ActorInput updatedActor)
+    public async Task<IActionResult> Edit(int id, ActorInput updatedActor)
     {
         ValidationResult validatorResult = await _actorInputValidator.ValidateAsync(updatedActor);
 
         if (!validatorResult.IsValid)
             return BadRequest(string.Join(',', validatorResult.Errors));
 
-        var actor = await _repository.UpdateActor(updatedActor);
+        var actor = await _repository.UpdateActor(id, updatedActor);
         return actor.Data != null
             ? Ok(actor)
             : NotFound(actor);

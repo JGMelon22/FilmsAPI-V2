@@ -9,6 +9,6 @@ public interface IActorRepository
     Task<ServiceResponse<ActorResult>> GetActorByName(string actorName);
     Task AddActor(ActorInput newActor);
     Task AddActors(ActorInput[] newActors);
-    Task<ServiceResponse<ActorResult>> UpdateActor(ActorInput updatedActor);
+    Task<ServiceResponse<ActorResult>> UpdateActor(int id, ActorInput updatedActor);
     Task RemoveActor(int id);
 }

@@ -39,18 +39,6 @@ public class GenreRepository : IGenreRepository
     {
         var serviceResponse = new ServiceResponse<List<GenreResult>>();
 
-        // var getGenresQuery = @"SELECT genre_id AS GenreId, 
-        //                               genre_name AS GenreName
-        //                        FROM genres;";
-
-        // _dbConnection.Open();
-
-        // var result = await _dbConnection.QueryAsync<GenreResult>(getGenresQuery);
-
-        // serviceResponse.Data = result.Adapt<List<GenreResult>>().ToList();
-
-        // _dbConnection.Close();
-
         var genres = await _dbContext.Database.SqlQueryRaw<GenreResult>(
             """
             SELECT genre_id AS GenreId, 
@@ -112,12 +100,12 @@ public class GenreRepository : IGenreRepository
         }
     }
 
-    public async Task<ServiceResponse<GenreResult>> UpdateGenre(GenreInput updatedGenre)
+    public async Task<ServiceResponse<GenreResult>> UpdateGenre(int id, GenreInput updatedGenre)
     {
         var serviceResponse = new ServiceResponse<GenreResult>();
         try
         {
-            var genre = await _dbContext.Genres.FindAsync(updatedGenre.GenreId);
+            var genre = await _dbContext.Genres.FindAsync(id);
 
             if (genre == null)
                 throw new Exception("Genre not found!");

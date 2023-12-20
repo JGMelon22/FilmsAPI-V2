@@ -140,13 +140,13 @@ public class ActorRepository : IActorRepository
         }
     }
 
-    public async Task<ServiceResponse<ActorResult>> UpdateActor(ActorInput updateActor)
+    public async Task<ServiceResponse<ActorResult>> UpdateActor(int id, ActorInput updateActor)
     {
         var serviceResponse = new ServiceResponse<ActorResult>();
 
         try
         {
-            var actor = await _dbContext.Actors.FindAsync(updateActor.ActorId);
+            var actor = await _dbContext.Actors.FindAsync(id);
             if (actor != null)
             {
                 actor.Adapt<ActorInput>();
