@@ -149,7 +149,6 @@ public class ActorRepository : IActorRepository
             var actor = await _dbContext.Actors.FindAsync(id);
             if (actor != null)
             {
-                actor.Adapt<ActorInput>();
 
                 actor.ActorName = updateActor.ActorName;
                 actor.Salary = updateActor.Salary;

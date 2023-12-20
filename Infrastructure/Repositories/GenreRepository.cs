@@ -110,8 +110,6 @@ public class GenreRepository : IGenreRepository
             if (genre == null)
                 throw new Exception("Genre not found!");
 
-            genre.Adapt<GenreInput>();
-
             genre.GenreName = updatedGenre.GenreName;
 
             await _dbContext.SaveChangesAsync();
