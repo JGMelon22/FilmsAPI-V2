@@ -1,7 +1,7 @@
 using FilmsAPI_V2.DTOs.Genre;
 using FluentValidation;
 
-namespace FilmsAPI_V2.Infrastructure.Validators.Genre;
+namespace FilmsAPI_V2.Infrastructure.Validators;
 
 public class AddGenreValidator : AbstractValidator<AddGenreDto>
 {
