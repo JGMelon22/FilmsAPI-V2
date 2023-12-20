@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace FilmsAPI_V2.Infrastructure.Validators;
 
-public class AddActorValidator : AbstractValidator<ActorInput>
+public class ActorValidator : AbstractValidator<ActorInput>
 {
-    public AddActorValidator()
+    public ActorValidator()
     {
         RuleFor(a => a.ActorName)
             .NotEmpty()

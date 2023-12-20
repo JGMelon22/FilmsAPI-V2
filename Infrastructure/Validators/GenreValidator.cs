@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace FilmsAPI_V2.Infrastructure.Validators;
 
-public class AddGenreValidator : AbstractValidator<GenreInput>
+public class GenreValidator : AbstractValidator<GenreInput>
 {
-    public AddGenreValidator()
+    public GenreValidator()
     {
         RuleFor(g => g.GenreName)
             .NotEmpty()

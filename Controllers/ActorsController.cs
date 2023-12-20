@@ -10,11 +10,11 @@ namespace FilmsAPI_V2.Controllers;
 public class ActorsController : ControllerBase
 {
     private readonly IActorRepository _repository;
-    private readonly IValidator<AddActorValidator> _addActorValidator;
-    public ActorsController(IActorRepository repository, IValidator<AddActorValidator> addActorValidator)
+    private readonly IValidator<ActorValidator> _ActorValidator;
+    public ActorsController(IActorRepository repository, IValidator<ActorValidator> ActorValidator)
     {
         _repository = repository;
-        _addActorValidator = addActorValidator;
+        _ActorValidator = ActorValidator;
     }
 
     [HttpGet]
@@ -54,7 +54,7 @@ public class ActorsController : ControllerBase
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ActorInput newActor)
     {
-        var result = await _addActorValidator.ValidateAsync(newActor);
+        var result = await _ActorValidator.ValidateAsync(newActor);
 
         if (!ModelState.IsValid)
             return BadRequest();
