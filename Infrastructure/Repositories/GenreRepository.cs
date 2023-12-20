@@ -1,5 +1,5 @@
 using System.Data;
-using Dapper;
+// using Dapper;
 using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;
@@ -52,12 +52,15 @@ public class GenreRepository : IGenreRepository
         // _dbConnection.Close();
 
         var genres = await _dbContext.Database.SqlQueryRaw<GetGenreDto>(
-            @$"SELECT genre_id AS GenreId, 
-                     genre_name AS GenreName
-              FROM genres;"
+            """
+            SELECT genre_id AS GenreId, 
+                   genre_name AS GenreName
+            FROM genres;
+            """
         ).ToListAsync();
 
-        serviceResponse.Data = genres.Adapt<List<GetGenreDto>>().ToList();
+        serviceResponse.Data = genres.Adapt<List<GetGenreDto>>();
+
 
         return serviceResponse;
     }

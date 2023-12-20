@@ -52,11 +52,13 @@ public class MovieRepository : IMovieRepository
     {
         var serviceResponse = new ServiceResponse<List<GetMovieDto>>();
 
-        var getMoviesQuery = @"select movie_id as MovieId,
-                            	      title as Title, 
-                            	      is_in_cinema as IsInCinema,
-                            	      release_date as ReleaseDate
-                              from movies;";
+        var getMoviesQuery = """
+                            SELECT movie_id AS MovieId,
+                                   title AS Title, 
+                                   is_in_cinema AS IsInCinema,
+                                   release_date AS ReleaseDate
+                            FROM movies;
+                            """;
 
         _dbConnection.Open();
 

@@ -14,6 +14,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(AddGenreDto newGenre)
     {
         if (!ModelState.IsValid)
@@ -24,6 +25,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpPost("multiple/")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateMultiple(AddGenreDto[] newGenres)
     {
         if (!ModelState.IsValid)

@@ -47,6 +47,7 @@ public class ActorsController : ControllerBase
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(AddActorDto newActor)
     {
         if (!ModelState.IsValid)
@@ -58,6 +59,7 @@ public class ActorsController : ControllerBase
     }
 
     [HttpPost("multiple/")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateMultiple(AddActorDto[] newActors)
     {
         if (!ModelState.IsValid)

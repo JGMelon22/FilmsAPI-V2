@@ -61,12 +61,15 @@ public class ActorRepository : IActorRepository
     public async Task<ServiceResponse<GetActorDto>> GetActorByName(string actorName)
     {
         var serviceResponse = new ServiceResponse<GetActorDto>();
-        var getActorByNameQuery = @"SELECT actor_id AS ActorId,
-                                    	   actor_name AS ActorName,
-                                    	   salary AS Salary,
-                                    	   birthdate AS Birthdate 
-                                    FROM actors
-                                    WHERE actor_name = @actorName;";
+        var getActorByNameQuery =
+                                """
+                                SELECT actor_id AS ActorId,
+                                 	   actor_name AS ActorName,
+                                 	   salary AS Salary,
+                                 	   birthdate AS Birthdate 
+                                FROM actors
+                                WHERE actor_name = @actorName;
+                                """;
         try
         {
             _dbConnection.Open();
@@ -95,11 +98,14 @@ public class ActorRepository : IActorRepository
     public async Task<ServiceResponse<List<GetActorDto>>> GetAllActors()
     {
         var serviceResponse = new ServiceResponse<List<GetActorDto>>();
-        var getActorsQuery = @"SELECT actor_id AS ActorId, 
-                                      actor_name AS ActorName,
-                                      salary AS Salary,
-                                      birthdate AS BirthDate
-                               FROM actors;";
+        var getActorsQuery =
+                            """
+                            SELECT actor_id AS ActorId, 
+                                    actor_name AS ActorName,
+                                    salary AS Salary,
+                                    birthdate AS BirthDate
+                            FROM actors;
+                            """;
 
         _dbConnection.Open();
 
