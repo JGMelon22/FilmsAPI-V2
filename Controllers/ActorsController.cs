@@ -74,7 +74,7 @@ public class ActorsController : ControllerBase
         return Ok("New Actors were added!");
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Edit(int id, ActorInput updatedActor)
     {
         ValidationResult validatorResult = await _actorInputValidator.ValidateAsync(updatedActor);
