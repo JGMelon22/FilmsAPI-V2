@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace FilmsAPI_V2.Infrastructure.Validators;
 
-public class AddGenreValidator : AbstractValidator<AddGenreDto>
+public class AddGenreValidator : AbstractValidator<GenreInput>
 {
     public AddGenreValidator()
     {

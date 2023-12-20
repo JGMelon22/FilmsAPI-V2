@@ -33,8 +33,8 @@ builder.Services.AddScoped<IDbConnection>(x =>
 builder.Services.RegisterMapsterConfiguration();
 
 // Fluent Validation
-builder.Services.AddScoped<IValidator<AddGenreDto>, AddGenreValidator>();
-builder.Services.AddScoped<IValidator<AddActorDto>, AddActorValidator>();
+builder.Services.AddScoped<IValidator<GenreInput>, AddGenreValidator>();
+builder.Services.AddScoped<IValidator<ActorInput>, AddActorValidator>();
 
 // Interface and Repositories
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();

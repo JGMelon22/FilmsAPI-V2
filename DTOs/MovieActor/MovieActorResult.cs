@@ -1,6 +1,6 @@
 namespace FilmsAPI_V2.DTOs.MovieActor;
 
-public record GetMovieActorDto
+public record MovieActorResult
 (
     int MovieId, string MovieTitle, bool IsInCinema, DateTime ReleaseDate,
     int ActorId, string ActorName, decimal Salary, DateTime BirthDate,

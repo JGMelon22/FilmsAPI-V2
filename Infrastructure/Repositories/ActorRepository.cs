@@ -19,7 +19,7 @@ public class ActorRepository : IActorRepository
 
     }
 
-    public async Task AddActor(AddActorDto newActor)
+    public async Task AddActor(ActorInput newActor)
     {
         var actor = newActor.Adapt<Actor>();
 
@@ -27,7 +27,7 @@ public class ActorRepository : IActorRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task AddActors(AddActorDto[] newActors)
+    public async Task AddActors(ActorInput[] newActors)
     {
         var actors = newActors.Adapt<Actor[]>();
 
@@ -35,9 +35,9 @@ public class ActorRepository : IActorRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<ServiceResponse<GetActorDto>> GetActorById(int id)
+    public async Task<ServiceResponse<ActorResult>> GetActorById(int id)
     {
-        var serviceResponse = new ServiceResponse<GetActorDto>();
+        var serviceResponse = new ServiceResponse<ActorResult>();
 
         try
         {
@@ -46,7 +46,7 @@ public class ActorRepository : IActorRepository
             if (actor == null)
                 throw new Exception("Actor not found!");
 
-            serviceResponse.Data = actor.Adapt<GetActorDto>();
+            serviceResponse.Data = actor.Adapt<ActorResult>();
         }
 
         catch (Exception ex)
@@ -58,9 +58,9 @@ public class ActorRepository : IActorRepository
         return serviceResponse;
     }
 
-    public async Task<ServiceResponse<GetActorDto>> GetActorByName(string actorName)
+    public async Task<ServiceResponse<ActorResult>> GetActorByName(string actorName)
     {
-        var serviceResponse = new ServiceResponse<GetActorDto>();
+        var serviceResponse = new ServiceResponse<ActorResult>();
         var getActorByNameQuery =
                                 """
                                 SELECT actor_id AS ActorId,
@@ -82,7 +82,7 @@ public class ActorRepository : IActorRepository
             if (actor == null)
                 throw new Exception("Actor not found!");
 
-            serviceResponse.Data = actor.Adapt<GetActorDto>();
+            serviceResponse.Data = actor.Adapt<ActorResult>();
             _dbConnection.Close();
         }
 
@@ -95,9 +95,9 @@ public class ActorRepository : IActorRepository
         return serviceResponse;
     }
 
-    public async Task<ServiceResponse<List<GetActorDto>>> GetAllActors()
+    public async Task<ServiceResponse<List<ActorResult>>> GetAllActors()
     {
-        var serviceResponse = new ServiceResponse<List<GetActorDto>>();
+        var serviceResponse = new ServiceResponse<List<ActorResult>>();
         var getActorsQuery =
                             """
                             SELECT actor_id AS ActorId, 
@@ -109,9 +109,9 @@ public class ActorRepository : IActorRepository
 
         _dbConnection.Open();
 
-        var result = await _dbConnection.QueryAsync<GetActorDto>(getActorsQuery);
+        var result = await _dbConnection.QueryAsync<ActorResult>(getActorsQuery);
 
-        serviceResponse.Data = result.Adapt<List<GetActorDto>>().ToList();
+        serviceResponse.Data = result.Adapt<List<ActorResult>>().ToList();
 
         _dbConnection.Close();
 
@@ -140,9 +140,9 @@ public class ActorRepository : IActorRepository
         }
     }
 
-    public async Task<ServiceResponse<GetActorDto>> UpdateActor(UpdateActorDto updateActor)
+    public async Task<ServiceResponse<ActorResult>> UpdateActor(UpdateActorDto updateActor)
     {
-        var serviceResponse = new ServiceResponse<GetActorDto>();
+        var serviceResponse = new ServiceResponse<ActorResult>();
 
         try
         {
@@ -157,7 +157,7 @@ public class ActorRepository : IActorRepository
 
                 await _dbContext.SaveChangesAsync();
 
-                serviceResponse.Data = actor.Adapt<GetActorDto>();
+                serviceResponse.Data = actor.Adapt<ActorResult>();
             }
 
             else

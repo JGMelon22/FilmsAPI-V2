@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace FilmsAPI_V2.Infrastructure.Validators;
 
-public class AddActorValidator : AbstractValidator<AddActorDto>
+public class AddActorValidator : AbstractValidator<ActorInput>
 {
     public AddActorValidator()
     {

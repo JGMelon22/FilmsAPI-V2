@@ -7,7 +7,7 @@ public static class MapsterConfig
 {
     public static void RegisterMapsterConfiguration(this IServiceCollection services)
     {
-        TypeAdapterConfig<AddMovieDto, Movie>
+        TypeAdapterConfig<MovieInput, Movie>
         .NewConfig()
         .Map(dest => dest.Genres,
             src => src.Genres

@@ -1,3 +1,3 @@
 namespace FilmsAPI_V2.DTOs.Movie;
 
-public record GetMovieDto(int MovieId, string Title, bool IsInCinema, DateTime ReleaseDate);
+public record MovieResult(int MovieId, string Title, bool IsInCinema, DateTime ReleaseDate);

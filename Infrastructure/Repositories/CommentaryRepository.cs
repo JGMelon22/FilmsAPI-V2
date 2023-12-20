@@ -13,7 +13,7 @@ public class CommentaryRepository : ICommentaryRepository
         _dbContext = dbContext;
     }
 
-    public async Task AddCommentary(int movieId, AddCommentaryDto newCommentary)
+    public async Task AddCommentary(int movieId, CommentaryInput newCommentary)
     {
         var commentary = newCommentary.Adapt<Commentary>();
         commentary.MovieId = movieId;
