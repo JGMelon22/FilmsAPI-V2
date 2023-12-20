@@ -4,5 +4,5 @@ namespace FilmsAPI_V2.Interfaces;
 
 public interface ICommentaryRepository
 {
-    Task AddCommentary(int MovieId, AddCommentaryDto newCommentary);
+    Task AddCommentary(int MovieId, CommentaryInput newCommentary);
 }

@@ -1,5 +1,8 @@
 using FilmsAPI_V2.DTOs.Actor;
+using FilmsAPI_V2.Infrastructure.Validators;
 using FilmsAPI_V2.Interfaces;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace FilmsAPI_V2.Controllers;
 
@@ -8,9 +11,11 @@ namespace FilmsAPI_V2.Controllers;
 public class ActorsController : ControllerBase
 {
     private readonly IActorRepository _repository;
-    public ActorsController(IActorRepository repository)
+    private readonly IValidator<ActorInput> _actorInputValidator;
+    public ActorsController(IActorRepository repository, IValidator<ActorInput> actorInputValidator)
     {
         _repository = repository;
+        _actorInputValidator = actorInputValidator;
     }
 
     [HttpGet]
@@ -47,10 +52,14 @@ public class ActorsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(AddActorDto newActor)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(ActorInput newActor)
     {
-        if (!ModelState.IsValid)
-            return BadRequest();
+        ValidationResult validatorResult = await _actorInputValidator.ValidateAsync(newActor);
+
+        if (!validatorResult.IsValid)
+            return BadRequest(string.Join(',', validatorResult.Errors));
+
 
         await _repository.AddActor(newActor);
 
@@ -58,7 +67,8 @@ public class ActorsController : ControllerBase
     }
 
     [HttpPost("multiple/")]
-    public async Task<IActionResult> CreateMultiple(AddActorDto[] newActors)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateMultiple(ActorInput[] newActors)
     {
         if (!ModelState.IsValid)
             return BadRequest();
@@ -68,12 +78,14 @@ public class ActorsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Edit(UpdateActorDto updateActor)
+    public async Task<IActionResult> Edit(int id, ActorInput updatedActor)
     {
-        if (!ModelState.IsValid)
-            return BadRequest();
+        ValidationResult validatorResult = await _actorInputValidator.ValidateAsync(updatedActor);
 
-        var actor = await _repository.UpdateActor(updateActor);
+        if (!validatorResult.IsValid)
+            return BadRequest(string.Join(',', validatorResult.Errors));
+
+        var actor = await _repository.UpdateActor(id, updatedActor);
         return actor.Data != null
             ? Ok(actor)
             : NotFound(actor);

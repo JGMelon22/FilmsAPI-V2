@@ -4,11 +4,9 @@ using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Infrastructure.Mapping;
 using FilmsAPI_V2.Infrastructure.Repositories;
-using FilmsAPI_V2.Infrastructure.Validators.Actor;
-using FilmsAPI_V2.Infrastructure.Validators.Genre;
+using FilmsAPI_V2.Infrastructure.Validators;
 using FilmsAPI_V2.Interfaces;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,11 +33,8 @@ builder.Services.AddScoped<IDbConnection>(x =>
 builder.Services.RegisterMapsterConfiguration();
 
 // Fluent Validation
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddScoped<IValidator<AddGenreDto>, AddGenreValidator>();
-builder.Services.AddScoped<IValidator<UpdateGenreDto>, UpdateGenreValidator>();
-builder.Services.AddScoped<IValidator<AddActorDto>, AddActorValidator>();
-builder.Services.AddScoped<IValidator<UpdateActorDto>, UpdateActorValidator>();
+builder.Services.AddScoped<IValidator<GenreInput>, GenreValidator>();
+builder.Services.AddScoped<IValidator<ActorInput>, ActorValidator>();
 
 // Interface and Repositories
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();

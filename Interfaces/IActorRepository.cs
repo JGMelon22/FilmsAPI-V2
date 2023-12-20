@@ -4,11 +4,11 @@ namespace FilmsAPI_V2.Interfaces;
 
 public interface IActorRepository
 {
-    Task<ServiceResponse<List<GetActorDto>>> GetAllActors();
-    Task<ServiceResponse<GetActorDto>> GetActorById(int id);
-    Task<ServiceResponse<GetActorDto>> GetActorByName(string actorName);
-    Task AddActor(AddActorDto newActor);
-    Task AddActors(AddActorDto[] newActors);
-    Task<ServiceResponse<GetActorDto>> UpdateActor(UpdateActorDto updateActor);
+    Task<ServiceResponse<List<ActorResult>>> GetAllActors();
+    Task<ServiceResponse<ActorResult>> GetActorById(int id);
+    Task<ServiceResponse<ActorResult>> GetActorByName(string actorName);
+    Task AddActor(ActorInput newActor);
+    Task AddActors(ActorInput[] newActors);
+    Task<ServiceResponse<ActorResult>> UpdateActor(int id, ActorInput updatedActor);
     Task RemoveActor(int id);
 }

@@ -18,7 +18,7 @@ public class MovieRepository : IMovieRepository
         _dbConnection = dbConnection;
     }
 
-    public async Task AddMovie(AddMovieDto newMovie)
+    public async Task AddMovie(MovieInput newMovie)
     {
         var movie = newMovie.Adapt<Movie>();
 
@@ -48,36 +48,38 @@ public class MovieRepository : IMovieRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<ServiceResponse<List<GetMovieDto>>> GetAllMovies()
+    public async Task<ServiceResponse<List<MovieResult>>> GetAllMovies()
     {
-        var serviceResponse = new ServiceResponse<List<GetMovieDto>>();
+        var serviceResponse = new ServiceResponse<List<MovieResult>>();
 
-        var getMoviesQuery = @"select movie_id as MovieId,
-                            	      title as Title, 
-                            	      is_in_cinema as IsInCinema,
-                            	      release_date as ReleaseDate
-                              from movies;";
+        var getMoviesQuery = """
+                            SELECT movie_id AS MovieId,
+                                   title AS Title, 
+                                   is_in_cinema AS IsInCinema,
+                                   release_date AS ReleaseDate
+                            FROM movies;
+                            """;
 
         _dbConnection.Open();
 
-        var movies = await _dbConnection.QueryAsync<GetMovieDto>(getMoviesQuery);
-        serviceResponse.Data = movies.Adapt<List<GetMovieDto>>();
+        var movies = await _dbConnection.QueryAsync<MovieResult>(getMoviesQuery);
+        serviceResponse.Data = movies.Adapt<List<MovieResult>>();
 
         _dbConnection.Close();
 
         return serviceResponse;
     }
 
-    public async Task<ServiceResponse<GetMovieDto>> GetMovieById(int id)
+    public async Task<ServiceResponse<MovieResult>> GetMovieById(int id)
     {
-        var serviceResponse = new ServiceResponse<GetMovieDto>();
+        var serviceResponse = new ServiceResponse<MovieResult>();
 
         try
         {
             var movie = await _dbContext.Movies.FindAsync(id);
 
             if (movie != null)
-                serviceResponse.Data = movie.Adapt<GetMovieDto>();
+                serviceResponse.Data = movie.Adapt<MovieResult>();
 
             throw new Exception("Movie not found!");
         }
@@ -113,18 +115,18 @@ public class MovieRepository : IMovieRepository
         }
     }
 
-    public async Task<ServiceResponse<GetMovieDto>> UpdateMovie(UpdateMovieDto updatedMovie)
+    public async Task<ServiceResponse<MovieResult>> UpdateMovie(int id, MovieInput updatedMovie)
     {
-        var serviceResponse = new ServiceResponse<GetMovieDto>();
+        var serviceResponse = new ServiceResponse<MovieResult>();
 
         try
         {
-            var movie = await _dbContext.Movies.FirstOrDefaultAsync(x => x.MovieId == updatedMovie.MovieId);
+            var movie = await _dbContext.Movies.FindAsync(id);
 
             if (movie != null)
             {
                 
-                movie.Adapt<UpdateMovieDto>(); // UpdateMap
+                movie.Adapt<MovieInput>(); // UpdateMap
 
                 movie.Title = updatedMovie.Title;
                 movie.IsInCinema = updatedMovie.IsInCinema;
@@ -132,7 +134,7 @@ public class MovieRepository : IMovieRepository
 
                 await _dbContext.SaveChangesAsync();
 
-                serviceResponse.Data = movie.Adapt<GetMovieDto>();
+                serviceResponse.Data = movie.Adapt<MovieResult>();
             }
 
             else

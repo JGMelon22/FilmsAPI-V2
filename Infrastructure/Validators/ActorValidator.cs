@@ -1,11 +1,11 @@
 using FilmsAPI_V2.DTOs.Actor;
 using FluentValidation;
 
-namespace FilmsAPI_V2.Infrastructure.Validators.Actor;
+namespace FilmsAPI_V2.Infrastructure.Validators;
 
-public class AddActorValidator : AbstractValidator<AddActorDto>
+public class ActorValidator : AbstractValidator<ActorInput>
 {
-    public AddActorValidator()
+    public ActorValidator()
     {
         RuleFor(a => a.ActorName)
             .NotEmpty()

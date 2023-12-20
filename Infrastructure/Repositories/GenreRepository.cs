@@ -1,5 +1,5 @@
 using System.Data;
-using Dapper;
+// using Dapper;
 using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Infrastructure.Data;
 using FilmsAPI_V2.Interfaces;
@@ -19,7 +19,7 @@ public class GenreRepository : IGenreRepository
 
     }
 
-    public async Task AddGenre(AddGenreDto newGenre)
+    public async Task AddGenre(GenreInput newGenre)
     {
         var genre = newGenre.Adapt<Genre>();
 
@@ -27,7 +27,7 @@ public class GenreRepository : IGenreRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task AddGenres(AddGenreDto[] newGenres)
+    public async Task AddGenres(GenreInput[] newGenres)
     {
         var genres = newGenres.Adapt<Genre[]>();
 
@@ -35,28 +35,27 @@ public class GenreRepository : IGenreRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<ServiceResponse<List<GetGenreDto>>> GetAllGenres()
+    public async Task<ServiceResponse<List<GenreResult>>> GetAllGenres()
     {
-        var serviceResponse = new ServiceResponse<List<GetGenreDto>>();
+        var serviceResponse = new ServiceResponse<List<GenreResult>>();
 
-        var getGenresQuery = @"SELECT genre_id AS GenreId, 
-                                      genre_name AS GenreName
-                               FROM genres;";
+        var genres = await _dbContext.Database.SqlQueryRaw<GenreResult>(
+            """
+            SELECT genre_id AS GenreId, 
+                   genre_name AS GenreName
+            FROM genres;
+            """
+        ).ToListAsync();
 
-        _dbConnection.Open();
+        serviceResponse.Data = genres.Adapt<List<GenreResult>>();
 
-        var result = await _dbConnection.QueryAsync<GetGenreDto>(getGenresQuery);
-
-        serviceResponse.Data = result.Adapt<List<GetGenreDto>>().ToList();
-
-        _dbConnection.Close();
 
         return serviceResponse;
     }
 
-    public async Task<ServiceResponse<GetGenreDto>> GetGenreById(int id)
+    public async Task<ServiceResponse<GenreResult>> GetGenreById(int id)
     {
-        var serviceResponse = new ServiceResponse<GetGenreDto>();
+        var serviceResponse = new ServiceResponse<GenreResult>();
 
         try
         {
@@ -64,7 +63,7 @@ public class GenreRepository : IGenreRepository
                         .FindAsync(id);
 
             if (genre != null)
-                serviceResponse.Data = genre.Adapt<GetGenreDto>();
+                serviceResponse.Data = genre.Adapt<GenreResult>();
 
             else
                 throw new Exception("Actor not found!");
@@ -101,23 +100,23 @@ public class GenreRepository : IGenreRepository
         }
     }
 
-    public async Task<ServiceResponse<GetGenreDto>> UpdateGenre(UpdateGenreDto updatedGenre)
+    public async Task<ServiceResponse<GenreResult>> UpdateGenre(int id, GenreInput updatedGenre)
     {
-        var serviceResponse = new ServiceResponse<GetGenreDto>();
+        var serviceResponse = new ServiceResponse<GenreResult>();
         try
         {
-            var genre = await _dbContext.Genres.FindAsync(updatedGenre.GenreId);
+            var genre = await _dbContext.Genres.FindAsync(id);
 
             if (genre == null)
                 throw new Exception("Genre not found!");
 
-            genre.Adapt<UpdateGenreDto>();
+            genre.Adapt<GenreInput>();
 
             genre.GenreName = updatedGenre.GenreName;
 
             await _dbContext.SaveChangesAsync();
 
-            serviceResponse.Data = genre.Adapt<GetGenreDto>();
+            serviceResponse.Data = genre.Adapt<GenreResult>();
         }
 
         catch (Exception ex)

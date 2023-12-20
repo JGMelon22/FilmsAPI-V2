@@ -14,7 +14,8 @@ public class MoviesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(AddMovieDto newMovie)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(MovieInput newMovie)
     {
         if (!ModelState.IsValid)
             return BadRequest();
@@ -45,12 +46,12 @@ public class MoviesController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Edit(UpdateMovieDto updatedMovie)
+    public async Task<IActionResult> Edit(int id, MovieInput updatedMovie)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        var movie = await _repository.UpdateMovie(updatedMovie);
+        var movie = await _repository.UpdateMovie(id, updatedMovie);
         return movie.Data != null
             ? Ok(movie)
             : NotFound();

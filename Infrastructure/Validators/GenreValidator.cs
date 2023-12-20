@@ -1,11 +1,11 @@
 using FilmsAPI_V2.DTOs.Genre;
 using FluentValidation;
 
-namespace FilmsAPI_V2.Infrastructure.Validators.Genre;
+namespace FilmsAPI_V2.Infrastructure.Validators;
 
-public class AddGenreValidator : AbstractValidator<AddGenreDto>
+public class GenreValidator : AbstractValidator<GenreInput>
 {
-    public AddGenreValidator()
+    public GenreValidator()
     {
         RuleFor(g => g.GenreName)
             .NotEmpty()

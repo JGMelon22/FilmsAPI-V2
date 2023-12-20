@@ -19,7 +19,7 @@ public class ActorRepository : IActorRepository
 
     }
 
-    public async Task AddActor(AddActorDto newActor)
+    public async Task AddActor(ActorInput newActor)
     {
         var actor = newActor.Adapt<Actor>();
 
@@ -27,7 +27,7 @@ public class ActorRepository : IActorRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task AddActors(AddActorDto[] newActors)
+    public async Task AddActors(ActorInput[] newActors)
     {
         var actors = newActors.Adapt<Actor[]>();
 
@@ -35,9 +35,9 @@ public class ActorRepository : IActorRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<ServiceResponse<GetActorDto>> GetActorById(int id)
+    public async Task<ServiceResponse<ActorResult>> GetActorById(int id)
     {
-        var serviceResponse = new ServiceResponse<GetActorDto>();
+        var serviceResponse = new ServiceResponse<ActorResult>();
 
         try
         {
@@ -46,7 +46,7 @@ public class ActorRepository : IActorRepository
             if (actor == null)
                 throw new Exception("Actor not found!");
 
-            serviceResponse.Data = actor.Adapt<GetActorDto>();
+            serviceResponse.Data = actor.Adapt<ActorResult>();
         }
 
         catch (Exception ex)
@@ -58,15 +58,18 @@ public class ActorRepository : IActorRepository
         return serviceResponse;
     }
 
-    public async Task<ServiceResponse<GetActorDto>> GetActorByName(string actorName)
+    public async Task<ServiceResponse<ActorResult>> GetActorByName(string actorName)
     {
-        var serviceResponse = new ServiceResponse<GetActorDto>();
-        var getActorByNameQuery = @"SELECT actor_id AS ActorId,
-                                    	   actor_name AS ActorName,
-                                    	   salary AS Salary,
-                                    	   birthdate AS Birthdate 
-                                    FROM actors
-                                    WHERE actor_name = @actorName;";
+        var serviceResponse = new ServiceResponse<ActorResult>();
+        var getActorByNameQuery =
+                                """
+                                SELECT actor_id AS ActorId,
+                                 	   actor_name AS ActorName,
+                                 	   salary AS Salary,
+                                 	   birthdate AS Birthdate 
+                                FROM actors
+                                WHERE actor_name = @actorName;
+                                """;
         try
         {
             _dbConnection.Open();
@@ -79,7 +82,7 @@ public class ActorRepository : IActorRepository
             if (actor == null)
                 throw new Exception("Actor not found!");
 
-            serviceResponse.Data = actor.Adapt<GetActorDto>();
+            serviceResponse.Data = actor.Adapt<ActorResult>();
             _dbConnection.Close();
         }
 
@@ -92,20 +95,23 @@ public class ActorRepository : IActorRepository
         return serviceResponse;
     }
 
-    public async Task<ServiceResponse<List<GetActorDto>>> GetAllActors()
+    public async Task<ServiceResponse<List<ActorResult>>> GetAllActors()
     {
-        var serviceResponse = new ServiceResponse<List<GetActorDto>>();
-        var getActorsQuery = @"SELECT actor_id AS ActorId, 
-                                      actor_name AS ActorName,
-                                      salary AS Salary,
-                                      birthdate AS BirthDate
-                               FROM actors;";
+        var serviceResponse = new ServiceResponse<List<ActorResult>>();
+        var getActorsQuery =
+                            """
+                            SELECT actor_id AS ActorId, 
+                                    actor_name AS ActorName,
+                                    salary AS Salary,
+                                    birthdate AS BirthDate
+                            FROM actors;
+                            """;
 
         _dbConnection.Open();
 
-        var result = await _dbConnection.QueryAsync<GetActorDto>(getActorsQuery);
+        var result = await _dbConnection.QueryAsync<ActorResult>(getActorsQuery);
 
-        serviceResponse.Data = result.Adapt<List<GetActorDto>>().ToList();
+        serviceResponse.Data = result.Adapt<List<ActorResult>>().ToList();
 
         _dbConnection.Close();
 
@@ -134,16 +140,16 @@ public class ActorRepository : IActorRepository
         }
     }
 
-    public async Task<ServiceResponse<GetActorDto>> UpdateActor(UpdateActorDto updateActor)
+    public async Task<ServiceResponse<ActorResult>> UpdateActor(int id, ActorInput updateActor)
     {
-        var serviceResponse = new ServiceResponse<GetActorDto>();
+        var serviceResponse = new ServiceResponse<ActorResult>();
 
         try
         {
-            var actor = await _dbContext.Actors.FindAsync(updateActor.ActorId);
+            var actor = await _dbContext.Actors.FindAsync(id);
             if (actor != null)
             {
-                actor.Adapt<UpdateActorDto>();
+                actor.Adapt<ActorInput>();
 
                 actor.ActorName = updateActor.ActorName;
                 actor.Salary = updateActor.Salary;
@@ -151,7 +157,7 @@ public class ActorRepository : IActorRepository
 
                 await _dbContext.SaveChangesAsync();
 
-                serviceResponse.Data = actor.Adapt<GetActorDto>();
+                serviceResponse.Data = actor.Adapt<ActorResult>();
             }
 
             else

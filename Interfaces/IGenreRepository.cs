@@ -4,10 +4,10 @@ namespace FilmsAPI_V2.Interfaces;
 
 public interface IGenreRepository
 {
-    Task<ServiceResponse<List<GetGenreDto>>> GetAllGenres();
-    Task<ServiceResponse<GetGenreDto>> GetGenreById(int id);
-    Task AddGenre(AddGenreDto newGenre);
-    Task AddGenres(AddGenreDto[] newGenres);
-    Task<ServiceResponse<GetGenreDto>> UpdateGenre(UpdateGenreDto updatedGenre);
+    Task<ServiceResponse<List<GenreResult>>> GetAllGenres();
+    Task<ServiceResponse<GenreResult>> GetGenreById(int id);
+    Task AddGenre(GenreInput newGenre);
+    Task AddGenres(GenreInput[] newGenres);
+    Task<ServiceResponse<GenreResult>> UpdateGenre(int id, GenreInput updatedGenre);
     Task RemoveGenre(int id);
 }

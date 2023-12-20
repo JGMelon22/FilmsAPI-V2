@@ -6,13 +6,14 @@ Simple Web API just to practice
 - Npgsql.EntityFrameworkCore.PostgreSQL <br />
 - Microsoft.EntityFrameworkCore.Design <br />
 - Microsoft.EntityFrameworkCore.Tools <br />
+- FluentValidation <br />
 - Dapper <br />
 - Npgsql <br />
 - Swashbuckle.AspNetCore <br />
 - Mapster <br />
 
 <h3>Used Tools</h3>
-- .NET 6 (C# 10) <br />
+- .NET 8 (C# 12) <br />
 - PostgreSQL <br />
 
 <div style="display: inline_block" class="flex-container"><br>
