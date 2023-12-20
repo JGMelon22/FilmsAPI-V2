@@ -140,7 +140,7 @@ public class ActorRepository : IActorRepository
         }
     }
 
-    public async Task<ServiceResponse<ActorResult>> UpdateActor(UpdateActorDto updateActor)
+    public async Task<ServiceResponse<ActorResult>> UpdateActor(ActorInput updateActor)
     {
         var serviceResponse = new ServiceResponse<ActorResult>();
 
@@ -149,7 +149,7 @@ public class ActorRepository : IActorRepository
             var actor = await _dbContext.Actors.FindAsync(updateActor.ActorId);
             if (actor != null)
             {
-                actor.Adapt<UpdateActorDto>();
+                actor.Adapt<ActorInput>();
 
                 actor.ActorName = updateActor.ActorName;
                 actor.Salary = updateActor.Salary;

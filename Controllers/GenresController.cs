@@ -1,5 +1,7 @@
 using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Interfaces;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace FilmsAPI_V2.Controllers;
 
@@ -8,17 +10,22 @@ namespace FilmsAPI_V2.Controllers;
 public class GenresController : ControllerBase
 {
     private readonly IGenreRepository _repository;
-    public GenresController(IGenreRepository repository)
+    private readonly IValidator<GenreInput> _genreInputValidator;
+
+    public GenresController(IGenreRepository repository, IValidator<GenreInput> genreInputValidator)
     {
         _repository = repository;
+        _genreInputValidator = genreInputValidator;
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(GenreInput newGenre)
     {
-        if (!ModelState.IsValid)
-            return BadRequest();
+        ValidationResult validatorResult = await _genreInputValidator.ValidateAsync(newGenre);
+
+        if (!validatorResult.IsValid)
+            return BadRequest(string.Join(',', validatorResult.Errors));
 
         await _repository.AddGenre(newGenre);
         return Ok("New Genre added!");
@@ -59,8 +66,10 @@ public class GenresController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Edit(GenreInput updatedGenre)
     {
-        if (!ModelState.IsValid)
-            return BadRequest();
+        ValidationResult validatorResult = await _genreInputValidator.ValidateAsync(updatedGenre);
+
+        if (!validatorResult.IsValid)
+            return BadRequest(string.Join(',', validatorResult.Errors));
 
         var genre = await _repository.UpdateGenre(updatedGenre);
         return genre.Data != null
