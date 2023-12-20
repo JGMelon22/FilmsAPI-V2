@@ -78,10 +78,12 @@ public class MovieRepository : IMovieRepository
         {
             var movie = await _dbContext.Movies.FindAsync(id);
 
-            if (movie != null)
-                serviceResponse.Data = movie.Adapt<MovieResult>();
+            if (movie == null)
+                throw new Exception("Movie not found!");
 
-            throw new Exception("Movie not found!");
+            serviceResponse.Data = movie.Adapt<MovieResult>();
+
+
         }
 
         catch (Exception ex)
@@ -125,7 +127,7 @@ public class MovieRepository : IMovieRepository
 
             if (movie != null)
             {
-                
+
                 movie.Adapt<MovieInput>(); // UpdateMap
 
                 movie.Title = updatedMovie.Title;

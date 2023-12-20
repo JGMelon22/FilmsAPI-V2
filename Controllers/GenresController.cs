@@ -2,6 +2,7 @@ using FilmsAPI_V2.DTOs.Genre;
 using FilmsAPI_V2.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace FilmsAPI_V2.Controllers;
 
@@ -41,6 +42,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpGet]
+    [OutputCache(Duration = 60)]
     public async Task<IActionResult> Index()
     {
         var genres = await _repository.GetAllGenres();
