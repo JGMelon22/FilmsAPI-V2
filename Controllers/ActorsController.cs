@@ -1,5 +1,4 @@
 using FilmsAPI_V2.DTOs.Actor;
-using FilmsAPI_V2.Infrastructure.Validators;
 using FilmsAPI_V2.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
@@ -52,7 +51,6 @@ public class ActorsController : ControllerBase
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ActorInput newActor)
     {
         ValidationResult validatorResult = await _actorInputValidator.ValidateAsync(newActor);
@@ -67,7 +65,6 @@ public class ActorsController : ControllerBase
     }
 
     [HttpPost("multiple/")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateMultiple(ActorInput[] newActors)
     {
         if (!ModelState.IsValid)

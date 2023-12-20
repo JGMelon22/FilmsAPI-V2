@@ -19,7 +19,6 @@ public class GenresController : ControllerBase
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(GenreInput newGenre)
     {
         ValidationResult validatorResult = await _genreInputValidator.ValidateAsync(newGenre);
@@ -32,7 +31,6 @@ public class GenresController : ControllerBase
     }
 
     [HttpPost("multiple/")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateMultiple(GenreInput[] newGenres)
     {
         if (!ModelState.IsValid)

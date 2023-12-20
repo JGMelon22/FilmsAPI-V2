@@ -14,7 +14,6 @@ public class MoviesController : ControllerBase
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(MovieInput newMovie)
     {
         if (!ModelState.IsValid)

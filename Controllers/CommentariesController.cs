@@ -14,7 +14,6 @@ public class CommentariesController : ControllerBase
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(int movieId, CommentaryInput newCommentary)
     {
         if (!ModelState.IsValid)
