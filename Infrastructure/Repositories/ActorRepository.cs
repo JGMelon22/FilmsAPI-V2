@@ -98,7 +98,10 @@ public class ActorRepository : IActorRepository
     public async Task<ServiceResponse<List<ActorResult>>> GetAllActors()
     {
         var serviceResponse = new ServiceResponse<List<ActorResult>>();
-        var getActorsQuery =
+
+        try
+        {
+            var getActorsQuery =
                             """
                             SELECT actor_id AS ActorId, 
                                     actor_name AS ActorName,
@@ -107,14 +110,20 @@ public class ActorRepository : IActorRepository
                             FROM actors;
                             """;
 
-        _dbConnection.Open();
+            _dbConnection.Open();
 
-        var result = await _dbConnection.QueryAsync<ActorResult>(getActorsQuery);
+            var result = await _dbConnection.QueryAsync<ActorResult>(getActorsQuery);
 
-        serviceResponse.Data = result.Adapt<List<ActorResult>>().ToList();
+            serviceResponse.Data = result.Adapt<List<ActorResult>>().ToList();
+        }
+
+        catch (Exception ex)
+        {
+            serviceResponse.Message = ex.Message;
+            serviceResponse.Success = false;
+        }
 
         _dbConnection.Close();
-
         return serviceResponse;
     }
 

@@ -39,16 +39,24 @@ public class GenreRepository : IGenreRepository
     {
         var serviceResponse = new ServiceResponse<List<GenreResult>>();
 
-        var genres = await _dbContext.Database.SqlQueryRaw<GenreResult>(
+        try
+        {
+            var genres = await _dbContext.Database.SqlQueryRaw<GenreResult>(
             """
             SELECT genre_id AS GenreId, 
                    genre_name AS GenreName
             FROM genres;
             """
-        ).ToListAsync();
+                   ).ToListAsync();
 
-        serviceResponse.Data = genres.Adapt<List<GenreResult>>();
+            serviceResponse.Data = genres.Adapt<List<GenreResult>>();
+        }
 
+        catch (Exception ex)
+        {
+            serviceResponse.Message = ex.Message;
+            serviceResponse.Success = false;
+        }
 
         return serviceResponse;
     }

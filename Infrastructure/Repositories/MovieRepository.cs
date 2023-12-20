@@ -52,7 +52,10 @@ public class MovieRepository : IMovieRepository
     {
         var serviceResponse = new ServiceResponse<List<MovieResult>>();
 
-        var getMoviesQuery = """
+        try
+        {
+            var getMoviesQuery =
+                            """
                             SELECT movie_id AS MovieId,
                                    title AS Title, 
                                    is_in_cinema AS IsInCinema,
@@ -60,10 +63,18 @@ public class MovieRepository : IMovieRepository
                             FROM movies;
                             """;
 
-        _dbConnection.Open();
+            _dbConnection.Open();
 
-        var movies = await _dbConnection.QueryAsync<MovieResult>(getMoviesQuery);
-        serviceResponse.Data = movies.Adapt<List<MovieResult>>();
+            var movies = await _dbConnection.QueryAsync<MovieResult>(getMoviesQuery);
+            serviceResponse.Data = movies.Adapt<List<MovieResult>>();
+
+        }
+
+        catch (Exception ex)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = ex.Message;
+        }
 
         _dbConnection.Close();
 
