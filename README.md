@@ -23,6 +23,8 @@ Simple Web API just to practice
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" />
         <img align="center" alt="PostgreSQL" height="4%" width="4%" <img
                 src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" />
+        <img align="center" alt="Docker" height="4%" width="4%" <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" />
 </div>
 <br/>
 <p>
