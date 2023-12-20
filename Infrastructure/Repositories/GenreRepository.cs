@@ -47,7 +47,7 @@ public class GenreRepository : IGenreRepository
                    genre_name AS GenreName
             FROM genres;
             """
-                   ).ToListAsync();
+            ).ToListAsync();
 
             serviceResponse.Data = genres.Adapt<List<GenreResult>>();
         }
